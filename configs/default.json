@@ -1,9 +1,9 @@
 {
-  "bandwidth_hz": 1000000000,
-  "chirp_duration_s": 0.00005,
-  "sampling_frequency_hz": 20000000,
-  "target_ranges_m": [15.0],
-  "target_amplitudes": [1.0],
-  "snr_db": 40,
-  "seed": 42
+  "radar": {
+    "bandwidth_hz": 500000000.0,
+    "chirp_duration_s": 0.00005,
+    "sampling_frequency_hz": 5000000.0,
+    "target_range_m": 15.0,
+    "snr_db": 20.0
+  }
 }
