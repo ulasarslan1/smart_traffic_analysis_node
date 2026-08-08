@@ -62,11 +62,31 @@ class TestAddComplexAwgn:
         )
 
     def test_noise_has_zero_mean_real_and_imag_parts(self):
-        signal = np.zeros(200_000, dtype=np.complex128)
+        sample_count = 200_000
+        snr_db = 0.0
+        signal = np.ones(sample_count, dtype=np.complex128)
         rng = np.random.default_rng(99)
-        noisy = add_complex_awgn(signal, snr_db=0.0, rng=rng)
-        assert np.mean(noisy.real) == pytest.approx(0.0, abs=0.05)
-        assert np.mean(noisy.imag) == pytest.approx(0.0, abs=0.05)
+
+        noisy = add_complex_awgn(signal, snr_db=snr_db, rng=rng)
+        noise = noisy - signal
+
+        signal_power = float(np.mean(np.abs(signal) ** 2))
+        expected_noise_power = signal_power / (10.0 ** (snr_db / 10.0))
+        expected_component_std = np.sqrt(expected_noise_power / 2.0)
+
+        mean_tolerance = (
+            6.0 * expected_component_std / np.sqrt(sample_count)
+        )
+
+        assert float(np.mean(noise.real)) == pytest.approx(
+            0.0,
+            abs=mean_tolerance,
+        )
+
+        assert float(np.mean(noise.imag)) == pytest.approx(
+            0.0,
+            abs=mean_tolerance,
+        )
 
     def test_works_with_arbitrary_complex_signal(self):
         t = np.linspace(0, 1, 500)
