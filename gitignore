@@ -1,0 +1,20 @@
+# PlatformIO
+.pio/
+.vscode/
+
+# Python / ML
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# Buyuk veri setleri (ör. RadarScenes) repoya konmaz
+data/
+
+# Isletim sistemi
+.DS_Store
+Thumbs.db
+
+# Gizli bilgiler (Wi-Fi / MQTT)
+secrets.h
+.env

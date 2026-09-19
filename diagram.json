@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "author": "SENTRY",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+
+    { "type": "wokwi-potentiometer", "id": "pot", "top": -170, "left": -330, "attrs": {} },
+    { "type": "chip-radar", "id": "radar", "top": -50, "left": -330, "attrs": {} },
+    { "type": "wokwi-buzzer", "id": "bz", "top": 30, "left": -330, "attrs": { "volume": "0.1" } },
+    { "type": "wokwi-slide-switch", "id": "swWeather", "top": 110, "left": -330, "attrs": {} },
+    { "type": "wokwi-slide-switch", "id": "swTraffic", "top": 170, "left": -330, "attrs": {} },
+
+    { "type": "board-ssd1306", "id": "oled", "top": 230, "left": -350, "attrs": { "i2cAddress": "0x3c" } },
+
+    { "type": "wokwi-rgb-led", "id": "rgb", "top": 400, "left": -330, "attrs": { "common": "cathode" } },
+    { "type": "wokwi-resistor", "id": "rR", "top": 390, "left": -220, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rG", "top": 420, "left": -220, "attrs": { "value": "220" } },
+    { "type": "wokwi-resistor", "id": "rB", "top": 450, "left": -220, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
+    [ "esp:4", "pot:SIG", "orange", [] ],
+    [ "esp:6", "radar:TX", "green", [] ],
+    [ "esp:7", "radar:RX", "blue", [] ],
+    [ "esp:15", "bz:2", "orange", [] ],
+    [ "esp:16", "swWeather:2", "cyan", [] ],
+    [ "esp:17", "swTraffic:2", "yellow", [] ],
+    [ "esp:8", "oled:SDA", "green", [] ],
+    [ "esp:9", "oled:SCL", "purple", [] ],
+    [ "esp:12", "rR:2", "red", [] ],
+    [ "rR:1", "rgb:R", "red", [] ],
+    [ "esp:13", "rG:2", "green", [] ],
+    [ "rG:1", "rgb:G", "green", [] ],
+    [ "esp:14", "rB:2", "blue", [] ],
+    [ "rB:1", "rgb:B", "blue", [] ],
+
+    [ "esp:3V3.1", "pot:VCC", "red", [] ],
+    [ "pot:VCC", "radar:VCC", "red", [] ],
+    [ "radar:VCC", "oled:VCC", "red", [] ],
+
+    [ "pot:GND", "radar:GND", "black", [] ],
+    [ "radar:GND", "bz:1", "black", [] ],
+    [ "bz:1", "swWeather:1", "black", [] ],
+    [ "swWeather:1", "swTraffic:1", "black", [] ],
+    [ "swTraffic:1", "oled:GND", "black", [] ],
+    [ "oled:GND", "rgb:COM", "black", [] ],
+    [ "rgb:COM", "esp:GND.1", "black", [] ]
+  ],
+  "dependencies": {}
+}

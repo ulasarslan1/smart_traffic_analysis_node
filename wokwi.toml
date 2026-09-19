@@ -1,0 +1,9 @@
+[wokwi]
+version = 1
+# firmware yolunu kendi PlatformIO ortam adina gore duzelt
+firmware = '.pio/build/esp32-s3-devkitc-1/firmware.bin'
+elf = '.pio/build/esp32-s3-devkitc-1/firmware.elf'
+
+[[chip]]
+name = 'radar'
+binary = 'chips/radar.chip.wasm'
