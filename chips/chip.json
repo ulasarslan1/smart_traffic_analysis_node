@@ -1,6 +1,0 @@
-{
-  "name": "radar",
-  "author": "SENTRY",
-  "pins": ["TX", "RX", "VCC", "GND"],
-  "controls": []
-}

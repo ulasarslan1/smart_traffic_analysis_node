@@ -4,50 +4,94 @@
   "editor": "wokwi",
   "parts": [
     { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
-
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "sonarA",
+      "top": -240,
+      "left": 100,
+      "attrs": { "distance": "400" }
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "sonarB",
+      "top": -110,
+      "left": 100,
+      "attrs": { "distance": "400" }
+    },
     { "type": "wokwi-potentiometer", "id": "pot", "top": -170, "left": -330, "attrs": {} },
-    { "type": "chip-radar", "id": "radar", "top": -50, "left": -330, "attrs": {} },
-    { "type": "wokwi-buzzer", "id": "bz", "top": 30, "left": -330, "attrs": { "volume": "0.1" } },
-    { "type": "wokwi-slide-switch", "id": "swWeather", "top": 110, "left": -330, "attrs": {} },
-    { "type": "wokwi-slide-switch", "id": "swTraffic", "top": 170, "left": -330, "attrs": {} },
-
-    { "type": "board-ssd1306", "id": "oled", "top": 230, "left": -350, "attrs": { "i2cAddress": "0x3c" } },
-
-    { "type": "wokwi-rgb-led", "id": "rgb", "top": 400, "left": -330, "attrs": { "common": "cathode" } },
-    { "type": "wokwi-resistor", "id": "rR", "top": 390, "left": -220, "attrs": { "value": "220" } },
-    { "type": "wokwi-resistor", "id": "rG", "top": 420, "left": -220, "attrs": { "value": "220" } },
-    { "type": "wokwi-resistor", "id": "rB", "top": 450, "left": -220, "attrs": { "value": "220" } }
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz",
+      "top": 31.2,
+      "left": -391.8,
+      "attrs": { "volume": "0.1" }
+    },
+    { "type": "wokwi-slide-switch", "id": "swTraffic", "top": 177.2, "left": -476.9, "attrs": {} },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": 230,
+      "left": -350,
+      "attrs": { "i2cAddress": "0x3c" }
+    },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb",
+      "top": 400,
+      "left": -330,
+      "attrs": { "common": "cathode" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rR",
+      "top": 390,
+      "left": -220,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rG",
+      "top": 420,
+      "left": -220,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "rB",
+      "top": 450,
+      "left": -220,
+      "attrs": { "value": "220" }
+    }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
-
+    [ "esp:5", "sonarA:TRIG", "green", [] ],
+    [ "esp:7", "sonarA:ECHO", "blue", [] ],
+    [ "esp:6", "sonarB:TRIG", "green", [] ],
+    [ "esp:18", "sonarB:ECHO", "blue", [] ],
     [ "esp:4", "pot:SIG", "orange", [] ],
-    [ "esp:6", "radar:TX", "green", [] ],
-    [ "esp:7", "radar:RX", "blue", [] ],
-    [ "esp:15", "bz:2", "orange", [] ],
-    [ "esp:16", "swWeather:2", "cyan", [] ],
-    [ "esp:17", "swTraffic:2", "yellow", [] ],
+    [ "esp:15", "bz:2", "orange", [ "v47.82", "h-331.08" ] ],
+    [ "esp:17", "swTraffic:2", "yellow", [ "v105.42", "h-465.98" ] ],
     [ "esp:8", "oled:SDA", "green", [] ],
     [ "esp:9", "oled:SCL", "purple", [] ],
     [ "esp:12", "rR:2", "red", [] ],
-    [ "rR:1", "rgb:R", "red", [] ],
+    [ "rR:1", "rgb:R", "red", [ "v161.15", "h-101.5" ] ],
     [ "esp:13", "rG:2", "green", [] ],
-    [ "rG:1", "rgb:G", "green", [] ],
+    [ "rG:1", "rgb:G", "green", [ "v63.95", "h-83.6" ] ],
     [ "esp:14", "rB:2", "blue", [] ],
     [ "rB:1", "rgb:B", "blue", [] ],
-
+    [ "esp:5V", "sonarA:VCC", "red", [] ],
+    [ "esp:5V", "sonarB:VCC", "red", [] ],
     [ "esp:3V3.1", "pot:VCC", "red", [] ],
-    [ "pot:VCC", "radar:VCC", "red", [] ],
-    [ "radar:VCC", "oled:VCC", "red", [] ],
-
-    [ "pot:GND", "radar:GND", "black", [] ],
-    [ "radar:GND", "bz:1", "black", [] ],
-    [ "bz:1", "swWeather:1", "black", [] ],
-    [ "swWeather:1", "swTraffic:1", "black", [] ],
-    [ "swTraffic:1", "oled:GND", "black", [] ],
-    [ "oled:GND", "rgb:COM", "black", [] ],
-    [ "rgb:COM", "esp:GND.1", "black", [] ]
+    [ "esp:3V3.1", "oled:VCC", "red", [] ],
+    [ "sonarA:GND", "esp:GND.1", "black", [] ],
+    [ "sonarB:GND", "esp:GND.1", "black", [] ],
+    [ "pot:GND", "esp:GND.1", "black", [] ],
+    [ "bz:1", "esp:GND.1", "black", [] ],
+    [ "swTraffic:1", "esp:GND.1", "black", [] ],
+    [ "oled:GND", "esp:GND.1", "black", [] ],
+    [ "rgb:COM", "esp:GND.1", "black", [ "v64.4", "h317.08" ] ]
   ],
   "dependencies": {}
 }
