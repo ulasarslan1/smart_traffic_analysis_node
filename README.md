@@ -1,4 +1,4 @@
-# SENTRY — Smart Traffic Analysis Node
+# SENTRY — Smart Edge Node for Traffic Risk
 
 SENTRY is an ESP32-S3-based smart traffic monitoring system simulated in Wokwi.
 
@@ -167,16 +167,6 @@ Display / MQTT
 * Ultrasonic sensors have a short range and low measurement rate, so here they model a measurement gate in a scaled simulation.
 * Everything runs in Wokwi. On real hardware, the HC-SR04 ECHO pin outputs 5 V and needs a voltage divider for the ESP32-S3.
 
-## Project Status
-
-```text
-Circuit (diagram.json)   ✔
-Firmware                 ☐
-Dataset + ML training    ☐
-Embedded inference       ☐
-Risk analysis            ☐
-MQTT                     ☐
-```
 
 ## Project Goal
 
