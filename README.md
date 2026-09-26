@@ -6,7 +6,6 @@ The current implementation focuses on **reliable single-sensor detection and ser
 
 > **Scope:** With one distance sensor, SENTRY cannot reliably measure road speed or travel direction. Wrong-way detection and the original two-sensor speed calculation are no longer part of this design. A completed detection cycle is not necessarily proof of one distinct physical vehicle: closely spaced vehicles without a measurable gap may be merged, and brief or noisy detections may be missed.
 
-```
 
 ## Hardware and Circuit
 
@@ -22,6 +21,19 @@ The Wokwi circuit is defined in `diagram.json`. The single-sensor version uses t
 
 The HC-SR04 is powered from 5 V with a common ground. **For physical hardware**, its 5 V ECHO signal must be level-shifted or divided to a safe 3.3 V level before connecting to the ESP32-S3. Direct ECHO wiring in Wokwi is simulation-specific.
 
+### Example serial output
+
+```text
+[FSM] EMPTY    | Distance:  148.3 cm | Count: 0
+[FSM] ENTRY    | Distance:   90.8 cm | Count: 1
+[FSM] ENTRY    | Distance:   90.8 cm | Count: 2
+[FSM] OCCUPIED | Distance:   90.8 cm | Count: 0
+[EVENT] VEHICLE_ENTERED
+[FSM] EXIT     | Distance:  164.4 cm | Count: 1
+[FSM] EXIT     | Distance:  164.4 cm | Count: 2
+[FSM] EMPTY    | Distance:  164.4 cm | Count: 0
+[EVENT] VEHICLE_EXITED | Total: 1
+```
 
 ## Planned TinyML Vehicle Classification
 
