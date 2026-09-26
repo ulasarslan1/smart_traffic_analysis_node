@@ -1,173 +1,97 @@
 # SENTRY — Smart Edge Node for Traffic Risk
 
-SENTRY is an ESP32-S3-based smart traffic monitoring system simulated in Wokwi.
+SENTRY is an ESP32-S3-based traffic monitoring prototype simulated in Wokwi. The project uses **one HC-SR04 ultrasonic sensor** to detect passage through a measurement zone. A finite state machine (FSM) filters short-lived readings, confirms vehicle entry and exit, and counts completed passages.
 
-The system detects simulated vehicles with two ultrasonic sensors, estimates their speed and direction, classifies them as motorcycle, car, or truck using a lightweight Machine Learning model, calculates a traffic risk score, displays local warnings, and sends important traffic events through MQTT.
+The current implementation focuses on **reliable single-sensor detection and serial logging**. TinyML vehicle classification, traffic-risk analysis, OLED/LED/buzzer feedback, and MQTT integration are planned development stages—not features implemented by the FSM shown here.
 
-## System Overview
+> **Scope:** With one distance sensor, SENTRY cannot reliably measure road speed or travel direction. Wrong-way detection and the original two-sensor speed calculation are no longer part of this design. A completed detection cycle is not necessarily proof of one distinct physical vehicle: closely spaced vehicles without a measurable gap may be merged, and brief or noisy detections may be missed.
 
-```text
-Vehicle Simulation
-        │
-        ▼
- Ultrasonic Sensors (A / B)
-        │
-        ▼
-     ESP32-S3
-        │
-        ├── Speed Detection
-        ├── Direction Detection
-        ├── Feature Extraction
-        ├── ML Vehicle Classification
-        └── Risk Analysis
-             │
-        ┌────┴────┐
-        ▼         ▼
-     Display     MQTT
-  (OLED / LED /     │
-     Buzzer)        ▼
-               Central System
-```
 
-## Circuit
+## Hardware and Circuit
 
-The circuit is defined in `diagram.json`.
+The Wokwi circuit is defined in `diagram.json`. The single-sensor version uses the following connections:
 
-| Component | ESP32-S3 pin | Role |
+| Component | ESP32-S3 connection | Purpose |
 | --- | --- | --- |
-| Ultrasonic sensor A (HC-SR04) | TRIG GPIO 6, ECHO GPIO 7 | First detection gate |
-| Ultrasonic sensor B (HC-SR04) | TRIG GPIO 5, ECHO GPIO 18 | Second detection gate |
-| Potentiometer | GPIO 4 (ADC) | Adjustable test value (planned: measurement noise level) |
-| Traffic switch | GPIO 17 | Selects the traffic condition |
-| SSD1306 OLED (I2C) | GPIO 8 (SDA), GPIO 9 (SCL) | Local display |
-| RGB LED | GPIO 12 / 13 / 14 | Risk level indicator |
-| Buzzer | GPIO 15 | Audible alert |
+| HC-SR04 ultrasonic sensor | TRIG GPIO 5; ECHO GPIO 7 | Measure distance to the detection zone |
+| Potentiometer | SIG GPIO 4 (ADC) | Adjustable simulation input; future use to be defined |
+| SSD1306 OLED (I²C) | SDA GPIO 8; SCL GPIO 9 | Planned local display |
+| RGB LED (common cathode) | R GPIO 12; G GPIO 13; B GPIO 14, each through 220 Ω | Planned visual indication |
+| Buzzer | GPIO 15 | Planned audible alert |
 
-## Speed & Direction
+The HC-SR04 is powered from 5 V with a common ground. **For physical hardware**, its 5 V ECHO signal must be level-shifted or divided to a safe 3.3 V level before connecting to the ESP32-S3. Direct ECHO wiring in Wokwi is simulation-specific.
 
-The distance between sensor A and sensor B is known, so speed is computed from the time difference between the two detections:
+### Example serial output
 
 ```text
-speed = distance / time
+[FSM] EMPTY    | Distance:  148.3 cm | Count: 0
+[FSM] ENTRY    | Distance:   90.8 cm | Count: 1
+[FSM] ENTRY    | Distance:   90.8 cm | Count: 2
+[FSM] OCCUPIED | Distance:   90.8 cm | Count: 0
+[EVENT] VEHICLE_ENTERED
+[FSM] EXIT     | Distance:  164.4 cm | Count: 1
+[FSM] EXIT     | Distance:  164.4 cm | Count: 2
+[FSM] EMPTY    | Distance:  164.4 cm | Count: 0
+[EVENT] VEHICLE_EXITED | Total: 1
 ```
 
-The order of activation gives the direction:
+## Planned TinyML Vehicle Classification
 
-```text
-A → B = NORMAL
-B → A = WRONG WAY
-```
+The next stage is to collect features from each confirmed passage. Candidate single-sensor features include:
 
-Invalid measurements (timeout, duplicate trigger, incomplete detection, impossible sequence) are rejected.
+- Time spent in the confirmed detection zone / passage duration
+- Minimum and mean measured distance during a passage
+- Distance variation and sampled distance profile
+- Number of valid measurements and signal-quality indicators
 
-## Vehicle Classification
+An offline Python training workflow could explore classification into `MOTORCYCLE`, `CAR`, `TRUCK`, and `UNKNOWN` for low-confidence results. **These labels are research targets, not validated capabilities.** One ultrasonic sensor cannot reliably recover vehicle length or speed, and vehicle classes may overlap substantially in these features. Evaluate any model against held-out simulated scenarios and, before real-world claims, representative physical measurements. Do not hard-code the simulated class as a firmware input.
 
-Vehicle classification is performed using a Machine Learning model.
+## Planned Traffic Analysis and Alerts
 
-The model predicts:
+The earlier two-sensor risk formula based on speed and wrong-way direction is **not applicable** to this version. A future single-sensor analysis may use completed passage count per time window, occupancy fraction, and unusually long occupancy as *traffic indicators*. Such indicators are not a validated measure of collision risk by themselves.
 
-```text
-Motorcycle
-Car
-Truck
-```
-
-Possible input features include:
-
-* Vehicle speed
-* Estimated vehicle length
-* Sensor occupancy time
-* Sensor A / B detection duration
-* Variation of the measured distance
-
-The class is never hard-coded and never given to the firmware. If the model's confidence is too low, the vehicle is reported as `UNKNOWN`.
-
-The model is trained offline using Python and then exported for inference on the ESP32-S3.
-
-```text
-Dataset
-   │
-   ▼
-Python ML Training
-   │
-   ▼
-Trained Model
-   │
-   ▼
-ESP32-S3 Inference
-```
-
-## Risk Analysis
-
-A deterministic risk engine combines speed, speed limit, vehicle type, classification confidence, direction, and traffic condition into a score from 0 to 100.
-
-| Risk Score | Level |
-| --- | --- |
-| 0–30 | LOW |
-| 31–60 | MODERATE |
-| 61–80 | HIGH |
-| 81–100 | CRITICAL |
-
-High-risk and wrong-way events trigger a local alert (RGB LED, buzzer, OLED) and an MQTT message.
+After defining and validating an appropriate risk model, the project can show status on the SSD1306 OLED, RGB LED, and buzzer and publish structured events over Wi-Fi/MQTT. Risk thresholds, alert policy, broker details, and payload schema are **to be defined**; no numerical risk score is claimed as implemented.
 
 ## Technologies
 
-* ESP32-S3
-* Wokwi
-* C++ / PlatformIO
-* Python
-* Machine Learning / TinyML
-* MQTT
-* Wi-Fi
+- ESP32-S3; Arduino/C++ and PlatformIO
+- Wokwi simulation
+- HC-SR04 ultrasonic sensing
+- Finite state machine and threshold hysteresis
+- Planned: Python, TinyML, Wi-Fi, MQTT, SSD1306 OLED, RGB LED, buzzer
 
-## Repository Structure
+## Repository Layout
 
 ```text
 SENTRY/
-│
 ├── src/
-│   └── main.cpp
-│
-├── ml/
-│   ├── generate_dataset.py
-│   ├── train.py
-│   └── dataset.csv
-│
-├── model/
-│   └── vehicle_model.h
-│
-├── diagram.json
-├── wokwi.toml
-├── platformio.ini
-├── .gitignore
+│   └── main.cpp            # Current single-sensor FSM firmware
+├── diagram.json            # Wokwi circuit (one HC-SR04)
+├── wokwi.toml              # Wokwi configuration, if present
+├── platformio.ini          # PlatformIO configuration, if present
+├── ml/                     # Planned dataset and training scripts
+├── model/                  # Planned exported TinyML model
 └── README.md
 ```
 
-`diagram.json` and `wokwi.toml` already exist. The firmware, the ML files, and `platformio.ini` are still to be created.
+The layout above distinguishes current core files from planned or configuration-dependent files; it is not a claim that every listed file already exists.
 
-## Development Flow
+## Development Roadmap
 
-```text
-Vehicle Detection
-       ↓
-Speed & Direction
-       ↓
-Feature Extraction
-       ↓
-ML Classification
-       ↓
-Risk Analysis
-       ↓
-Display / MQTT
-```
+1. **Current:** Single HC-SR04 distance measurement, five-state FSM, three-sample confirmation, serial events, and completed-passage counter.
+2. **Next:** Timestamp entry/exit, collect per-passage distance features, and handle extended invalid readings.
+3. **Research:** Generate and evaluate realistic datasets for single-sensor TinyML classification; quantify ambiguity and missed detections.
+4. **Later:** Define occupancy-based traffic indicators and integrate OLED, LED, buzzer, and MQTT.
 
-## Notes
+## Limitations
 
-* The training data is synthetic and includes measurement noise. Reported accuracy describes the simulation, not real traffic.
-* Ultrasonic sensors have a short range and low measurement rate, so here they model a measurement gate in a scaled simulation.
-* Everything runs in Wokwi. On real hardware, the HC-SR04 ECHO pin outputs 5 V and needs a voltage divider for the ESP32-S3.
-
+- The sensor observes presence at one point, **not** vehicle speed or direction.
+- A short passage can be missed when it does not produce three qualifying readings at the 300 ms sampling interval.
+- A vehicle already present at startup is not counted as a newly entered vehicle.
+- Invalid readings during `ENTRY` or `EXIT` reset the candidate; extended invalid readings during `OCCUPIED` currently have no dedicated fault timeout.
+- Nearby or back-to-back vehicles may not be distinguishable without a confirmed empty interval.
+- Simulated measurements and future synthetic training accuracy must not be presented as field-validated traffic performance.
 
 ## Project Goal
 
-The goal of SENTRY is to demonstrate how embedded systems, Machine Learning, Edge AI, and IoT communication can be combined to build an intelligent roadside traffic monitoring node without requiring physical hardware.
+Demonstrate an incremental edge-IoT traffic sensing workflow: establish robust, observable single-sensor passage detection first, then evaluate whether its measured features support useful on-device classification and traffic indicators before adding local alerts and MQTT reporting.
