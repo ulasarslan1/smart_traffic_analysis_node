@@ -22,7 +22,6 @@ The Wokwi circuit is defined in `diagram.json`. The single-sensor version uses t
 
 The HC-SR04 is powered from 5 V with a common ground. **For physical hardware**, its 5 V ECHO signal must be level-shifted or divided to a safe 3.3 V level before connecting to the ESP32-S3. Direct ECHO wiring in Wokwi is simulation-specific.
 
-```
 
 ## Planned TinyML Vehicle Classification
 
