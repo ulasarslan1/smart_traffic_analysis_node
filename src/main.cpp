@@ -1,201 +1,160 @@
-
 #include <Arduino.h>
 #include "Logger.h"
 
 constexpr uint8_t TRIG_PIN = 5;
 constexpr uint8_t ECHO_PIN = 7;
-constexpr uint8_t CONFIRM_COUNT = 3;
 
-enum class State {
-    UNKNOWN,
-    EMPTY,
-    ENTRY,
-    OCCUPIED,
-    EXIT
-};
-
+enum class State { UNKNOWN, EMPTY, ENTRY, OCCUPIED, EXIT };
 State currentState = State::UNKNOWN;
 
 uint8_t candidateCount = 0;
-
-bool vehicleEntered = false;
-bool vehicleExited = false;
-
 uint32_t vehicleCount = 0;
 
-const char* stateName(State state)
-{
+struct Passage {
+    bool active = false;
+    uint32_t startMs = 0;
+    uint32_t validSamples = 0;
+    float minCm = 0;
+    float maxCm = 0;
+    double sumCm = 0;
+} passage;
+
+const char* stateName(State state) {
     switch (state) {
-        case State::UNKNOWN:  return "UNKNOWN";
-        case State::EMPTY:    return "EMPTY";
-        case State::ENTRY:    return "ENTRY";
+        case State::UNKNOWN: return "UNKNOWN";
+        case State::EMPTY: return "EMPTY";
+        case State::ENTRY: return "ENTRY";
         case State::OCCUPIED: return "OCCUPIED";
-        case State::EXIT:     return "EXIT";
-        default:              return "INVALID";
+        case State::EXIT: return "EXIT";
+        default: return "INVALID";
     }
 }
 
-float calculateDistance()
-{
+float calculateDistance() {
+
     digitalWrite(TRIG_PIN, LOW);
     delayMicroseconds(2);
-
     digitalWrite(TRIG_PIN, HIGH);
     delayMicroseconds(10);
-
     digitalWrite(TRIG_PIN, LOW);
 
-    unsigned long duration = pulseIn(
-        ECHO_PIN,
-        HIGH,
-        30000
-    );
+    const unsigned long duration = pulseIn(ECHO_PIN, HIGH, 30000);
 
-    if (duration == 0) {
-        return -1.0f;
-    }
+    if (duration == 0) return -1.0f;
 
     return duration * 0.0343f / 2.0f;
 }
 
-void updateFSM()
-{
-    State previousState = currentState;
+void addSample(float cm) {
+    if (!passage.active) return;
+    if (passage.validSamples == 0) passage.minCm = passage.maxCm = cm;
+    else {
+        if (cm < passage.minCm) passage.minCm = cm;
+        if (cm > passage.maxCm) passage.maxCm = cm;
+    }
+    passage.sumCm += cm;
+    ++passage.validSamples;
+}
 
-    float distance = calculateDistance();
-    bool valid = (distance >= 0.0f);
+void startPassage(uint32_t now, float firstCm) {
+    passage = Passage{};
+    passage.active = true;
+    passage.startMs = now;
+    addSample(firstCm);
+}
 
-    Logger::sensor(distance, valid);
+void completePassage(uint32_t now) {
+    if (!passage.active || passage.validSamples == 0) return;
+    ++vehicleCount;
+    Logger::vehicleExited(vehicleCount);
+    Logger::passage(vehicleCount, passage.startMs, now,
+                    now - passage.startMs, passage.minCm, passage.maxCm,
+                    static_cast<float>(passage.sumCm / passage.validSamples),
+                    passage.validSamples);
+    passage = Passage{};
+}
 
-    switch (currentState)
-    {
-        case State::UNKNOWN:
+void updateFSM() {
 
-            if (valid) {
-                if (distance < 100.0f) {
-                    currentState = State::OCCUPIED;
-                }
-                else if (distance > 120.0f) {
-                    currentState = State::EMPTY;
-                }
-            }
-            break;
+    const State previousState = currentState;
+    const float distance = calculateDistance();
+    const uint32_t now = millis();
+    const bool valid = distance >= 0.0f && distance <= 410;
 
-        case State::EMPTY:
-
-            if (valid && distance < 100.0f) {
-                currentState = State::ENTRY;
-                candidateCount = 1;
-            }
-            break;
-
-        case State::ENTRY:
-
-            if (!valid) {
-                currentState = State::EMPTY;
-                candidateCount = 0;
-            }
-            else if (distance < 100.0f) {
-                candidateCount++;
-
-                if (candidateCount >= CONFIRM_COUNT) {
-                    currentState = State::OCCUPIED;
-                    candidateCount = 0;
-
-                    vehicleEntered = true;
-                }
-            }
-            else {
-                currentState = State::EMPTY;
-                candidateCount = 0;
-            }
-            break;
-
-        case State::OCCUPIED:
-
-            if (valid && distance > 120.0f) {
-                currentState = State::EXIT;
-                candidateCount = 1;
-            }
-            break;
-
-        case State::EXIT:
-
-            if (!valid) {
-                currentState = State::OCCUPIED;
-                candidateCount = 0;
-            }
-            else if (distance > 120.0f) {
-                candidateCount++;
-
-                if (candidateCount >= CONFIRM_COUNT) {
-                    currentState = State::EMPTY;
-                    candidateCount = 0;
-
-                    vehicleExited = true;
-                }
-            }
-            else {
-                currentState = State::OCCUPIED;
-                candidateCount = 0;
-            }
-            break;
-
-        default:
-            currentState = State::UNKNOWN;
+    if (!valid) {
+        if (currentState == State::ENTRY) {
+            currentState = State::EMPTY;
             candidateCount = 0;
-            break;
+            passage = Passage{};
+        } else if (currentState == State::EXIT) {
+            currentState = State::OCCUPIED;
+            candidateCount = 0;
+        }
+    } else {
+        switch (currentState) {
+            case State::UNKNOWN:
+                if (distance < 100.0f) currentState = State::OCCUPIED;
+                else if (distance > 120.0f) currentState = State::EMPTY;
+                break;
+            case State::EMPTY:
+                if (distance < 100.0f) {
+                    currentState = State::ENTRY;
+                    candidateCount = 1;
+                    startPassage(now, distance);
+                }
+                break;
+            case State::ENTRY:
+                if (distance < 100.0f) {
+                    addSample(distance);
+                    if (++candidateCount >= 3) {
+                        currentState = State::OCCUPIED;
+                        candidateCount = 0;
+                        Logger::vehicleEntered(passage.startMs);
+                    }
+                } else {
+                    currentState = State::EMPTY;
+                    candidateCount = 0;
+                    passage = Passage{};
+                }
+                break;
+            case State::OCCUPIED:
+                if (passage.active) addSample(distance);
+                if (distance > 120.0f) {
+                    currentState = State::EXIT;
+                    candidateCount = 1;
+                }
+                break;
+            case State::EXIT:
+                if (passage.active) addSample(distance);
+                if (distance > 120.0f) {
+                    if (++candidateCount >= 3) {
+                        currentState = State::EMPTY;
+                        candidateCount = 0;
+                        completePassage(now);
+                    }
+                } else {
+                    currentState = State::OCCUPIED;
+                    candidateCount = 0;
+                }
+                break;
+        }
     }
-
-    if (previousState != currentState) {
-        Logger::stateTransition(
-            stateName(previousState),
-            stateName(currentState)
-        );
-    }
-
-    Logger::fsm(
-        stateName(currentState),
-        distance,
-        valid,
-        candidateCount
-    );
+    if (previousState != currentState)
+        Logger::stateTransition(stateName(previousState), stateName(currentState));
 }
 
-void handleEvents()
-{
-    if (vehicleEntered) {
-        Logger::vehicleEntered();
-        vehicleEntered = false;
-    }
+void setup() {
 
-    if (vehicleExited) {
-        vehicleCount++;
-
-        Logger::vehicleExited(vehicleCount);
-
-        vehicleExited = false;
-    }
-}
-
-void setup()
-{
     Logger::begin();
-
     pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT);
-
     digitalWrite(TRIG_PIN, LOW);
+    Logger::system("System initialized");
 
-    Logger::system("SENTRY initialized");
-    Logger::system("Waiting for sensor...");
 }
 
-void loop()
-{
+
+void loop() {
     updateFSM();
-
-    handleEvents();
-
     delay(300);
 }

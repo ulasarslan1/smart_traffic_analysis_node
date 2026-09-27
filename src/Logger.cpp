@@ -1,96 +1,31 @@
-
 #include "Logger.h"
 
 namespace Logger {
 
-    constexpr bool ENABLE_SENSOR_LOG = false;
-    constexpr bool ENABLE_FSM_LOG = false;
+    void begin() { Serial.begin(115200); }
 
-    void begin()
-    {
-        Serial.begin(115200);
+    void system(const char* message) { Serial.printf("[SYSTEM] %s\r\n", message); }
+
+    void stateTransition(const char* from, const char* to) {
+        Serial.printf("[FSM] %s -> %s\r\n", from, to);
     }
 
-    void system(const char* message)
-    {
-        Serial.printf(
-            "[SYSTEM] %s\r\n",
-            message
-        );
+    void vehicleEntered(uint32_t startedAtMs) {
+        Serial.printf("[EVENT] VEHICLE_ENTERED | Started: %lu ms\r\n", (unsigned long)startedAtMs);
     }
 
-    void sensor(float distance, bool valid)
-    {
-        if (!ENABLE_SENSOR_LOG) {
-            return;
-        }
-
-        if (valid) {
-            Serial.printf(
-                "[SENSOR] Distance: %.1f cm\r\n",
-                distance
-            );
-        }
-        else {
-            Serial.print(
-                "[SENSOR] INVALID\r\n"
-            );
-        }
+    void vehicleExited(uint32_t total) {
+        Serial.printf("[EVENT] VEHICLE_EXITED | Total: %lu\r\n", (unsigned long)total);
     }
 
-    void stateTransition(
-        const char* from,
-        const char* to
-    )
-    {
-        Serial.printf(
-            "[FSM] %s -> %s\r\n",
-            from,
-            to
-        );
+    void passage(uint32_t id, uint32_t startedAtMs, uint32_t endedAtMs,
+                uint32_t durationMs, float minCm, float maxCm, float avgCm,
+                uint32_t validSamples) {
+
+        Serial.printf("[PASSAGE] id=%lu,start_ms=%lu,end_ms=%lu,duration_ms=%lu,min_cm=%.1f,max_cm=%.1f,avg_cm=%.1f,valid=%lu\r\n",
+                    (unsigned long)id, (unsigned long)startedAtMs,
+                    (unsigned long)endedAtMs, (unsigned long)durationMs,
+                    minCm, maxCm, avgCm, (unsigned long)validSamples);
     }
-
-    void fsm(
-        const char* state,
-        float distance,
-        bool valid,
-        uint8_t candidateCount
-    )
-    {
-        if (!ENABLE_FSM_LOG) {
-            return;
-        }
-
-        if (valid) {
-            Serial.printf(
-                "[FSM] %-8s | %6.1f cm | Confirm: %u\r\n",
-                state,
-                distance,
-                candidateCount
-            );
-        }
-        else {
-            Serial.printf(
-                "[FSM] %-8s | INVALID | Confirm: %u\r\n",
-                state,
-                candidateCount
-            );
-        }
-    }
-
-    void vehicleEntered()
-    {
-        Serial.print(
-            "[EVENT] VEHICLE_ENTERED\r\n"
-        );
-    }
-
-    void vehicleExited(uint32_t total)
-    {
-        Serial.printf(
-            "[EVENT] VEHICLE_EXITED | Total: %lu\r\n",
-            static_cast<unsigned long>(total)
-        );
-    }
-
+    
 }
