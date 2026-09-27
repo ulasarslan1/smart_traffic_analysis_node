@@ -24,15 +24,29 @@ The HC-SR04 is powered from 5 V with a common ground. **For physical hardware**,
 ### Example serial output
 
 ```text
-[FSM] EMPTY    | Distance:  148.3 cm | Count: 0
-[FSM] ENTRY    | Distance:   90.8 cm | Count: 1
-[FSM] ENTRY    | Distance:   90.8 cm | Count: 2
-[FSM] OCCUPIED | Distance:   90.8 cm | Count: 0
-[EVENT] VEHICLE_ENTERED
-[FSM] EXIT     | Distance:  164.4 cm | Count: 1
-[FSM] EXIT     | Distance:  164.4 cm | Count: 2
-[FSM] EMPTY    | Distance:  164.4 cm | Count: 0
+[SYSTEM] System initialized
+[FSM] UNKNOWN -> EMPTY
+[FSM] EMPTY -> ENTRY
+[EVENT] VEHICLE_ENTERED | Started: 5120 ms
+[FSM] ENTRY -> OCCUPIED
+[FSM] OCCUPIED -> EXIT
 [EVENT] VEHICLE_EXITED | Total: 1
+[PASSAGE] id=1,start_ms=5120,end_ms=9099,duration_ms=3979,min_cm=57.5,max_cm=218.9,avg_cm=92.1,valid=14
+[FSM] EXIT -> EMPTY
+[FSM] EMPTY -> ENTRY
+[EVENT] VEHICLE_ENTERED | Started: 13473 ms
+[FSM] ENTRY -> OCCUPIED
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 2
+[PASSAGE] id=2,start_ms=13473,end_ms=17723,duration_ms=4250,min_cm=27.3,max_cm=131.2,avg_cm=53.7,valid=15
+[FSM] EXIT -> EMPTY
+[FSM] EMPTY -> ENTRY
+[EVENT] VEHICLE_ENTERED | Started: 24805 ms
+[FSM] ENTRY -> OCCUPIED
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 3
+[PASSAGE] id=3,start_ms=24805,end_ms=27877,duration_ms=3072,min_cm=43.4,max_cm=278.4,avg_cm=107.5,valid=11
+[FSM] EXIT -> EMPTY
 ```
 
 ## Planned TinyML Vehicle Classification
@@ -60,21 +74,7 @@ After defining and validating an appropriate risk model, the project can show st
 - Finite state machine and threshold hysteresis
 - Planned: Python, TinyML, Wi-Fi, MQTT, SSD1306 OLED, RGB LED, buzzer
 
-## Repository Layout
 
-```text
-SENTRY/
-├── src/
-│   └── main.cpp            # Current single-sensor FSM firmware
-├── diagram.json            # Wokwi circuit (one HC-SR04)
-├── wokwi.toml              # Wokwi configuration, if present
-├── platformio.ini          # PlatformIO configuration, if present
-├── ml/                     # Planned dataset and training scripts
-├── model/                  # Planned exported TinyML model
-└── README.md
-```
-
-The layout above distinguishes current core files from planned or configuration-dependent files; it is not a claim that every listed file already exists.
 
 ## Development Roadmap
 
