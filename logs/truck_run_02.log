@@ -1,0 +1,668 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x370
+load:0x403c9700,len:0x900
+load:0x403cc700,len:0x2364
+entry 0x403c98ac
+[SYSTEM] System initialized
+[FSM] UNKNOWN -> EMPTY
+[PASSAGE_START] id=1,start_ms=4204
+[SAMPLE] id=1,t_ms=0,distance_cm=86.76
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=1,t_ms=306,distance_cm=73.14
+[SAMPLE] id=1,t_ms=610,distance_cm=60.69
+[EVENT] VEHICLE_ENTERED | Started: 4204 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=1,t_ms=915,distance_cm=54.83
+[SAMPLE] id=1,t_ms=1218,distance_cm=49.01
+[SAMPLE] id=1,t_ms=1522,distance_cm=43.22
+[SAMPLE] id=1,t_ms=1825,distance_cm=43.61
+[SAMPLE] id=1,t_ms=2128,distance_cm=45.19
+[SAMPLE] id=1,t_ms=2431,distance_cm=46.77
+[SAMPLE] id=1,t_ms=2735,distance_cm=48.35
+[SAMPLE] id=1,t_ms=3039,distance_cm=49.89
+[SAMPLE] id=1,t_ms=3343,distance_cm=51.86
+[SAMPLE] id=1,t_ms=3648,distance_cm=60.64
+[SAMPLE] id=1,t_ms=3952,distance_cm=69.44
+[SAMPLE] id=1,t_ms=4258,distance_cm=78.26
+[SAMPLE] id=1,t_ms=4563,distance_cm=87.05
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 1
+[PASSAGE_END] id=1,end_ms=9704
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=2,start_ms=13131
+[SAMPLE] id=2,t_ms=0,distance_cm=90.36
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=2,t_ms=305,distance_cm=76.97
+[SAMPLE] id=2,t_ms=609,distance_cm=63.70
+[EVENT] VEHICLE_ENTERED | Started: 13131 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=2,t_ms=914,distance_cm=57.66
+[SAMPLE] id=2,t_ms=1217,distance_cm=51.96
+[SAMPLE] id=2,t_ms=1521,distance_cm=46.22
+[SAMPLE] id=2,t_ms=1825,distance_cm=46.03
+[SAMPLE] id=2,t_ms=2129,distance_cm=47.61
+[SAMPLE] id=2,t_ms=2433,distance_cm=49.15
+[SAMPLE] id=2,t_ms=2737,distance_cm=50.68
+[SAMPLE] id=2,t_ms=3041,distance_cm=52.26
+[SAMPLE] id=2,t_ms=3346,distance_cm=54.88
+[SAMPLE] id=2,t_ms=3650,distance_cm=63.51
+[SAMPLE] id=2,t_ms=3956,distance_cm=72.20
+[SAMPLE] id=2,t_ms=4261,distance_cm=80.88
+[SAMPLE] id=2,t_ms=4568,distance_cm=89.57
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 2
+[PASSAGE_END] id=2,end_ms=18635
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=3,start_ms=22062
+[SAMPLE] id=3,t_ms=0,distance_cm=93.31
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=3,t_ms=306,distance_cm=80.43
+[SAMPLE] id=3,t_ms=610,distance_cm=67.62
+[EVENT] VEHICLE_ENTERED | Started: 22062 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=3,t_ms=915,distance_cm=59.17
+[SAMPLE] id=3,t_ms=1219,distance_cm=53.65
+[SAMPLE] id=3,t_ms=1522,distance_cm=48.14
+[SAMPLE] id=3,t_ms=1826,distance_cm=43.90
+[SAMPLE] id=3,t_ms=2129,distance_cm=45.38
+[SAMPLE] id=3,t_ms=2432,distance_cm=46.87
+[SAMPLE] id=3,t_ms=2736,distance_cm=48.35
+[SAMPLE] id=3,t_ms=3040,distance_cm=49.84
+[SAMPLE] id=3,t_ms=3344,distance_cm=51.33
+[SAMPLE] id=3,t_ms=3649,distance_cm=54.18
+[SAMPLE] id=3,t_ms=3953,distance_cm=62.51
+[SAMPLE] id=3,t_ms=4258,distance_cm=70.81
+[SAMPLE] id=3,t_ms=4563,distance_cm=79.15
+[SAMPLE] id=3,t_ms=4869,distance_cm=87.45
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 3
+[PASSAGE_END] id=3,end_ms=27867
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=4,start_ms=31293
+[SAMPLE] id=4,t_ms=0,distance_cm=81.27
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=4,t_ms=305,distance_cm=66.44
+[SAMPLE] id=4,t_ms=610,distance_cm=55.62
+[EVENT] VEHICLE_ENTERED | Started: 31293 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=4,t_ms=913,distance_cm=49.25
+[SAMPLE] id=4,t_ms=1217,distance_cm=42.88
+[SAMPLE] id=4,t_ms=1521,distance_cm=38.33
+[SAMPLE] id=4,t_ms=1824,distance_cm=40.06
+[SAMPLE] id=4,t_ms=2127,distance_cm=41.78
+[SAMPLE] id=4,t_ms=2430,distance_cm=43.51
+[SAMPLE] id=4,t_ms=2733,distance_cm=45.24
+[SAMPLE] id=4,t_ms=3036,distance_cm=46.96
+[SAMPLE] id=4,t_ms=3340,distance_cm=52.91
+[SAMPLE] id=4,t_ms=3645,distance_cm=62.51
+[SAMPLE] id=4,t_ms=3950,distance_cm=72.15
+[SAMPLE] id=4,t_ms=4255,distance_cm=81.75
+[SAMPLE] id=4,t_ms=4562,distance_cm=91.44
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 4
+[PASSAGE_END] id=4,end_ms=36791
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=5,start_ms=40217
+[SAMPLE] id=5,t_ms=0,distance_cm=86.32
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=5,t_ms=306,distance_cm=73.44
+[SAMPLE] id=5,t_ms=610,distance_cm=60.64
+[EVENT] VEHICLE_ENTERED | Started: 40217 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=5,t_ms=915,distance_cm=54.38
+[SAMPLE] id=5,t_ms=1218,distance_cm=48.86
+[SAMPLE] id=5,t_ms=1522,distance_cm=43.32
+[SAMPLE] id=5,t_ms=1825,distance_cm=39.43
+[SAMPLE] id=5,t_ms=2128,distance_cm=40.90
+[SAMPLE] id=5,t_ms=2431,distance_cm=42.43
+[SAMPLE] id=5,t_ms=2734,distance_cm=43.90
+[SAMPLE] id=5,t_ms=3037,distance_cm=45.38
+[SAMPLE] id=5,t_ms=3340,distance_cm=46.87
+[SAMPLE] id=5,t_ms=3644,distance_cm=48.40
+[SAMPLE] id=5,t_ms=3949,distance_cm=55.22
+[SAMPLE] id=5,t_ms=4253,distance_cm=63.54
+[SAMPLE] id=5,t_ms=4559,distance_cm=71.96
+[SAMPLE] id=5,t_ms=4864,distance_cm=80.33
+[SAMPLE] id=5,t_ms=5171,distance_cm=88.68
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 5
+[PASSAGE_END] id=5,end_ms=46324
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=6,start_ms=49127
+[SAMPLE] id=6,t_ms=0,distance_cm=90.31
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=6,t_ms=305,distance_cm=76.04
+[SAMPLE] id=6,t_ms=609,distance_cm=63.25
+[EVENT] VEHICLE_ENTERED | Started: 49127 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=6,t_ms=914,distance_cm=57.09
+[SAMPLE] id=6,t_ms=1217,distance_cm=50.99
+[SAMPLE] id=6,t_ms=1521,distance_cm=46.96
+[SAMPLE] id=6,t_ms=1825,distance_cm=48.81
+[SAMPLE] id=6,t_ms=2129,distance_cm=50.23
+[SAMPLE] id=6,t_ms=2433,distance_cm=51.91
+[SAMPLE] id=6,t_ms=2738,distance_cm=53.59
+[SAMPLE] id=6,t_ms=3042,distance_cm=56.59
+[SAMPLE] id=6,t_ms=3346,distance_cm=65.94
+[SAMPLE] id=6,t_ms=3652,distance_cm=75.10
+[SAMPLE] id=6,t_ms=3957,distance_cm=84.40
+[SAMPLE] id=6,t_ms=4264,distance_cm=93.66
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 6
+[PASSAGE_END] id=6,end_ms=54327
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=7,start_ms=58066
+[SAMPLE] id=7,t_ms=0,distance_cm=92.39
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=7,t_ms=306,distance_cm=78.15
+[SAMPLE] id=7,t_ms=610,distance_cm=64.04
+[EVENT] VEHICLE_ENTERED | Started: 58066 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=7,t_ms=915,distance_cm=54.67
+[SAMPLE] id=7,t_ms=1218,distance_cm=48.81
+[SAMPLE] id=7,t_ms=1522,distance_cm=42.53
+[SAMPLE] id=7,t_ms=1825,distance_cm=37.85
+[SAMPLE] id=7,t_ms=2128,distance_cm=39.48
+[SAMPLE] id=7,t_ms=2431,distance_cm=41.09
+[SAMPLE] id=7,t_ms=2734,distance_cm=42.77
+[SAMPLE] id=7,t_ms=3037,distance_cm=44.40
+[SAMPLE] id=7,t_ms=3340,distance_cm=46.03
+[SAMPLE] id=7,t_ms=3644,distance_cm=49.05
+[SAMPLE] id=7,t_ms=3949,distance_cm=58.22
+[SAMPLE] id=7,t_ms=4253,distance_cm=67.42
+[SAMPLE] id=7,t_ms=4559,distance_cm=76.63
+[SAMPLE] id=7,t_ms=4864,distance_cm=85.82
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 7
+[PASSAGE_END] id=7,end_ms=63867
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=8,start_ms=67293
+[SAMPLE] id=8,t_ms=0,distance_cm=83.66
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=8,t_ms=306,distance_cm=70.86
+[SAMPLE] id=8,t_ms=610,distance_cm=60.75
+[EVENT] VEHICLE_ENTERED | Started: 67293 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=8,t_ms=915,distance_cm=55.27
+[SAMPLE] id=8,t_ms=1218,distance_cm=49.75
+[SAMPLE] id=8,t_ms=1522,distance_cm=44.30
+[SAMPLE] id=8,t_ms=1825,distance_cm=45.69
+[SAMPLE] id=8,t_ms=2128,distance_cm=47.16
+[SAMPLE] id=8,t_ms=2432,distance_cm=48.81
+[SAMPLE] id=8,t_ms=2736,distance_cm=50.15
+[SAMPLE] id=8,t_ms=3040,distance_cm=51.62
+[SAMPLE] id=8,t_ms=3345,distance_cm=53.54
+[SAMPLE] id=8,t_ms=3649,distance_cm=61.83
+[SAMPLE] id=8,t_ms=3953,distance_cm=70.07
+[SAMPLE] id=8,t_ms=4259,distance_cm=78.41
+[SAMPLE] id=8,t_ms=4564,distance_cm=86.71
+[SAMPLE] id=8,t_ms=4871,distance_cm=95.05
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 8
+[PASSAGE_END] id=8,end_ms=73100
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=9,start_ms=76214
+[SAMPLE] id=9,t_ms=0,distance_cm=86.32
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=9,t_ms=306,distance_cm=72.99
+[SAMPLE] id=9,t_ms=610,distance_cm=60.15
+[EVENT] VEHICLE_ENTERED | Started: 76214 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=9,t_ms=915,distance_cm=54.43
+[SAMPLE] id=9,t_ms=1218,distance_cm=48.81
+[SAMPLE] id=9,t_ms=1522,distance_cm=42.96
+[SAMPLE] id=9,t_ms=1825,distance_cm=41.74
+[SAMPLE] id=9,t_ms=2128,distance_cm=43.32
+[SAMPLE] id=9,t_ms=2431,distance_cm=44.85
+[SAMPLE] id=9,t_ms=2734,distance_cm=46.37
+[SAMPLE] id=9,t_ms=3038,distance_cm=47.95
+[SAMPLE] id=9,t_ms=3342,distance_cm=49.49
+[SAMPLE] id=9,t_ms=3647,distance_cm=55.17
+[SAMPLE] id=9,t_ms=3951,distance_cm=63.80
+[SAMPLE] id=9,t_ms=4257,distance_cm=72.44
+[SAMPLE] id=9,t_ms=4562,distance_cm=81.12
+[SAMPLE] id=9,t_ms=4869,distance_cm=89.81
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 9
+[PASSAGE_END] id=9,end_ms=82019
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=10,start_ms=85134
+[SAMPLE] id=10,t_ms=0,distance_cm=89.97
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=10,t_ms=305,distance_cm=77.07
+[SAMPLE] id=10,t_ms=609,distance_cm=64.19
+[EVENT] VEHICLE_ENTERED | Started: 85134 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=10,t_ms=914,distance_cm=56.41
+[SAMPLE] id=10,t_ms=1217,distance_cm=50.83
+[SAMPLE] id=10,t_ms=1521,distance_cm=45.29
+[SAMPLE] id=10,t_ms=1825,distance_cm=40.56
+[SAMPLE] id=10,t_ms=2128,distance_cm=42.03
+[SAMPLE] id=10,t_ms=2431,distance_cm=43.51
+[SAMPLE] id=10,t_ms=2734,distance_cm=44.98
+[SAMPLE] id=10,t_ms=3037,distance_cm=46.51
+[SAMPLE] id=10,t_ms=3341,distance_cm=48.00
+[SAMPLE] id=10,t_ms=3645,distance_cm=49.49
+[SAMPLE] id=10,t_ms=3950,distance_cm=56.65
+[SAMPLE] id=10,t_ms=4254,distance_cm=64.98
+[SAMPLE] id=10,t_ms=4560,distance_cm=73.38
+[SAMPLE] id=10,t_ms=4865,distance_cm=81.75
+[SAMPLE] id=10,t_ms=5172,distance_cm=90.16
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 10
+[PASSAGE_END] id=10,end_ms=91242
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=11,start_ms=94045
+[SAMPLE] id=11,t_ms=0,distance_cm=93.66
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=11,t_ms=306,distance_cm=79.83
+[SAMPLE] id=11,t_ms=611,distance_cm=66.08
+[EVENT] VEHICLE_ENTERED | Started: 94045 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=11,t_ms=916,distance_cm=56.75
+[SAMPLE] id=11,t_ms=1219,distance_cm=50.88
+[SAMPLE] id=11,t_ms=1523,distance_cm=44.93
+[SAMPLE] id=11,t_ms=1826,distance_cm=40.51
+[SAMPLE] id=11,t_ms=2129,distance_cm=42.09
+[SAMPLE] id=11,t_ms=2432,distance_cm=43.66
+[SAMPLE] id=11,t_ms=2735,distance_cm=45.29
+[SAMPLE] id=11,t_ms=3039,distance_cm=46.87
+[SAMPLE] id=11,t_ms=3343,distance_cm=48.81
+[SAMPLE] id=11,t_ms=3647,distance_cm=52.07
+[SAMPLE] id=11,t_ms=3952,distance_cm=60.99
+[SAMPLE] id=11,t_ms=4256,distance_cm=69.89
+[SAMPLE] id=11,t_ms=4562,distance_cm=78.80
+[SAMPLE] id=11,t_ms=4868,distance_cm=87.76
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 11
+[PASSAGE_END] id=11,end_ms=99849
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=12,start_ms=103275
+[SAMPLE] id=12,t_ms=0,distance_cm=83.85
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=12,t_ms=306,distance_cm=70.38
+[SAMPLE] id=12,t_ms=610,distance_cm=60.44
+[EVENT] VEHICLE_ENTERED | Started: 103275 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=12,t_ms=915,distance_cm=54.62
+[SAMPLE] id=12,t_ms=1218,distance_cm=48.86
+[SAMPLE] id=12,t_ms=1522,distance_cm=45.14
+[SAMPLE] id=12,t_ms=1825,distance_cm=46.72
+[SAMPLE] id=12,t_ms=2129,distance_cm=48.29
+[SAMPLE] id=12,t_ms=2433,distance_cm=49.84
+[SAMPLE] id=12,t_ms=2737,distance_cm=51.42
+[SAMPLE] id=12,t_ms=3041,distance_cm=52.96
+[SAMPLE] id=12,t_ms=3346,distance_cm=59.70
+[SAMPLE] id=12,t_ms=3650,distance_cm=68.45
+[SAMPLE] id=12,t_ms=3956,distance_cm=77.23
+[SAMPLE] id=12,t_ms=4261,distance_cm=85.97
+[SAMPLE] id=12,t_ms=4568,distance_cm=94.75
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 12
+[PASSAGE_END] id=12,end_ms=108779
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=13,start_ms=112205
+[SAMPLE] id=13,t_ms=0,distance_cm=85.34
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=13,t_ms=305,distance_cm=69.83
+[SAMPLE] id=13,t_ms=610,distance_cm=57.68
+[EVENT] VEHICLE_ENTERED | Started: 112205 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=13,t_ms=914,distance_cm=50.99
+[SAMPLE] id=13,t_ms=1218,distance_cm=44.35
+[SAMPLE] id=13,t_ms=1521,distance_cm=40.99
+[SAMPLE] id=13,t_ms=1824,distance_cm=42.82
+[SAMPLE] id=13,t_ms=2127,distance_cm=44.59
+[SAMPLE] id=13,t_ms=2430,distance_cm=46.37
+[SAMPLE] id=13,t_ms=2734,distance_cm=48.19
+[SAMPLE] id=13,t_ms=3038,distance_cm=51.23
+[SAMPLE] id=13,t_ms=3343,distance_cm=61.23
+[SAMPLE] id=13,t_ms=3648,distance_cm=71.31
+[SAMPLE] id=13,t_ms=3953,distance_cm=81.36
+[SAMPLE] id=13,t_ms=4260,distance_cm=91.46
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 13
+[PASSAGE_END] id=13,end_ms=117401
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=14,start_ms=121140
+[SAMPLE] id=14,t_ms=0,distance_cm=90.12
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=14,t_ms=305,distance_cm=77.86
+[SAMPLE] id=14,t_ms=609,distance_cm=65.94
+[EVENT] VEHICLE_ENTERED | Started: 121140 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=14,t_ms=914,distance_cm=57.78
+[SAMPLE] id=14,t_ms=1217,distance_cm=52.56
+[SAMPLE] id=14,t_ms=1521,distance_cm=47.30
+[SAMPLE] id=14,t_ms=1825,distance_cm=42.09
+[SAMPLE] id=14,t_ms=2128,distance_cm=42.93
+[SAMPLE] id=14,t_ms=2431,distance_cm=44.35
+[SAMPLE] id=14,t_ms=2734,distance_cm=45.72
+[SAMPLE] id=14,t_ms=3038,distance_cm=47.16
+[SAMPLE] id=14,t_ms=3342,distance_cm=48.81
+[SAMPLE] id=14,t_ms=3646,distance_cm=49.99
+[SAMPLE] id=14,t_ms=3951,distance_cm=54.14
+[SAMPLE] id=14,t_ms=4255,distance_cm=62.01
+[SAMPLE] id=14,t_ms=4559,distance_cm=69.99
+[SAMPLE] id=14,t_ms=4865,distance_cm=77.91
+[SAMPLE] id=14,t_ms=5170,distance_cm=85.82
+[SAMPLE] id=14,t_ms=5477,distance_cm=93.81
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 14
+[PASSAGE_END] id=14,end_ms=127553
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=15,start_ms=130044
+[SAMPLE] id=15,t_ms=0,distance_cm=93.96
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=15,t_ms=306,distance_cm=80.33
+[SAMPLE] id=15,t_ms=611,distance_cm=66.73
+[EVENT] VEHICLE_ENTERED | Started: 130044 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=15,t_ms=916,distance_cm=58.28
+[SAMPLE] id=15,t_ms=1219,distance_cm=52.41
+[SAMPLE] id=15,t_ms=1523,distance_cm=46.56
+[SAMPLE] id=15,t_ms=1827,distance_cm=43.85
+[SAMPLE] id=15,t_ms=2130,distance_cm=45.38
+[SAMPLE] id=15,t_ms=2434,distance_cm=46.96
+[SAMPLE] id=15,t_ms=2738,distance_cm=48.81
+[SAMPLE] id=15,t_ms=3042,distance_cm=50.15
+[SAMPLE] id=15,t_ms=3346,distance_cm=51.72
+[SAMPLE] id=15,t_ms=3651,distance_cm=58.62
+[SAMPLE] id=15,t_ms=3955,distance_cm=67.42
+[SAMPLE] id=15,t_ms=4261,distance_cm=76.23
+[SAMPLE] id=15,t_ms=4566,distance_cm=85.08
+[SAMPLE] id=15,t_ms=4873,distance_cm=93.91
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 15
+[PASSAGE_END] id=15,end_ms=135853
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=16,start_ms=139279
+[SAMPLE] id=16,t_ms=0,distance_cm=83.16
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=16,t_ms=305,distance_cm=69.15
+[SAMPLE] id=16,t_ms=610,distance_cm=59.30
+[EVENT] VEHICLE_ENTERED | Started: 139279 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=16,t_ms=915,distance_cm=53.30
+[SAMPLE] id=16,t_ms=1218,distance_cm=47.27
+[SAMPLE] id=16,t_ms=1522,distance_cm=44.35
+[SAMPLE] id=16,t_ms=1825,distance_cm=45.98
+[SAMPLE] id=16,t_ms=2129,distance_cm=47.61
+[SAMPLE] id=16,t_ms=2433,distance_cm=49.25
+[SAMPLE] id=16,t_ms=2737,distance_cm=50.88
+[SAMPLE] id=16,t_ms=3041,distance_cm=52.51
+[SAMPLE] id=16,t_ms=3346,distance_cm=61.17
+[SAMPLE] id=16,t_ms=3650,distance_cm=70.23
+[SAMPLE] id=16,t_ms=3956,distance_cm=79.34
+[SAMPLE] id=16,t_ms=4262,distance_cm=88.44
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 16
+[PASSAGE_END] id=16,end_ms=144477
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=17,start_ms=148215
+[SAMPLE] id=17,t_ms=0,distance_cm=86.57
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=17,t_ms=306,distance_cm=73.93
+[SAMPLE] id=17,t_ms=610,distance_cm=61.31
+[EVENT] VEHICLE_ENTERED | Started: 148215 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=17,t_ms=915,distance_cm=54.88
+[SAMPLE] id=17,t_ms=1218,distance_cm=49.41
+[SAMPLE] id=17,t_ms=1522,distance_cm=44.01
+[SAMPLE] id=17,t_ms=1825,distance_cm=39.57
+[SAMPLE] id=17,t_ms=2128,distance_cm=40.99
+[SAMPLE] id=17,t_ms=2431,distance_cm=42.48
+[SAMPLE] id=17,t_ms=2734,distance_cm=43.96
+[SAMPLE] id=17,t_ms=3037,distance_cm=45.43
+[SAMPLE] id=17,t_ms=3341,distance_cm=46.87
+[SAMPLE] id=17,t_ms=3645,distance_cm=48.35
+[SAMPLE] id=17,t_ms=3950,distance_cm=53.99
+[SAMPLE] id=17,t_ms=4254,distance_cm=62.17
+[SAMPLE] id=17,t_ms=4559,distance_cm=70.38
+[SAMPLE] id=17,t_ms=4864,distance_cm=78.60
+[SAMPLE] id=17,t_ms=5169,distance_cm=86.81
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 17
+[PASSAGE_END] id=17,end_ms=154321
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=18,start_ms=157124
+[SAMPLE] id=18,t_ms=0,distance_cm=91.15
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=18,t_ms=306,distance_cm=78.94
+[SAMPLE] id=18,t_ms=610,distance_cm=66.87
+[EVENT] VEHICLE_ENTERED | Started: 157124 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=18,t_ms=915,distance_cm=59.99
+[SAMPLE] id=18,t_ms=1219,distance_cm=54.78
+[SAMPLE] id=18,t_ms=1522,distance_cm=49.55
+[SAMPLE] id=18,t_ms=1826,distance_cm=46.37
+[SAMPLE] id=18,t_ms=2130,distance_cm=47.75
+[SAMPLE] id=18,t_ms=2434,distance_cm=49.20
+[SAMPLE] id=18,t_ms=2738,distance_cm=50.59
+[SAMPLE] id=18,t_ms=3042,distance_cm=52.02
+[SAMPLE] id=18,t_ms=3347,distance_cm=53.39
+[SAMPLE] id=18,t_ms=3651,distance_cm=56.46
+[SAMPLE] id=18,t_ms=3955,distance_cm=64.33
+[SAMPLE] id=18,t_ms=4261,distance_cm=72.20
+[SAMPLE] id=18,t_ms=4566,distance_cm=80.09
+[SAMPLE] id=18,t_ms=4873,distance_cm=88.00
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 18
+[PASSAGE_END] id=18,end_ms=162933
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=19,start_ms=166048
+[SAMPLE] id=19,t_ms=0,distance_cm=93.26
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=19,t_ms=306,distance_cm=78.65
+[SAMPLE] id=19,t_ms=610,distance_cm=64.14
+[EVENT] VEHICLE_ENTERED | Started: 166048 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=19,t_ms=915,distance_cm=54.97
+[SAMPLE] id=19,t_ms=1218,distance_cm=48.81
+[SAMPLE] id=19,t_ms=1522,distance_cm=42.43
+[SAMPLE] id=19,t_ms=1825,distance_cm=39.17
+[SAMPLE] id=19,t_ms=2128,distance_cm=40.85
+[SAMPLE] id=19,t_ms=2431,distance_cm=42.53
+[SAMPLE] id=19,t_ms=2734,distance_cm=44.25
+[SAMPLE] id=19,t_ms=3037,distance_cm=45.93
+[SAMPLE] id=19,t_ms=3341,distance_cm=47.61
+[SAMPLE] id=19,t_ms=3646,distance_cm=54.18
+[SAMPLE] id=19,t_ms=3950,distance_cm=63.64
+[SAMPLE] id=19,t_ms=4256,distance_cm=73.09
+[SAMPLE] id=19,t_ms=4561,distance_cm=82.59
+[SAMPLE] id=19,t_ms=4868,distance_cm=92.08
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 19
+[PASSAGE_END] id=19,end_ms=171852
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=20,start_ms=175278
+[SAMPLE] id=20,t_ms=0,distance_cm=81.51
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=20,t_ms=305,distance_cm=65.94
+[SAMPLE] id=20,t_ms=610,distance_cm=55.86
+[EVENT] VEHICLE_ENTERED | Started: 175278 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=20,t_ms=913,distance_cm=49.10
+[SAMPLE] id=20,t_ms=1217,distance_cm=42.38
+[SAMPLE] id=20,t_ms=1520,distance_cm=41.69
+[SAMPLE] id=20,t_ms=1823,distance_cm=43.51
+[SAMPLE] id=20,t_ms=2126,distance_cm=45.29
+[SAMPLE] id=20,t_ms=2430,distance_cm=47.11
+[SAMPLE] id=20,t_ms=2734,distance_cm=48.96
+[SAMPLE] id=20,t_ms=3039,distance_cm=55.27
+[SAMPLE] id=20,t_ms=3343,distance_cm=65.43
+[SAMPLE] id=20,t_ms=3649,distance_cm=75.65
+[SAMPLE] id=20,t_ms=3954,distance_cm=85.82
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 20
+[PASSAGE_END] id=20,end_ms=180169
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=21,start_ms=184219
+[SAMPLE] id=21,t_ms=0,distance_cm=86.37
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=21,t_ms=306,distance_cm=73.33
+[SAMPLE] id=21,t_ms=610,distance_cm=60.78
+[EVENT] VEHICLE_ENTERED | Started: 184219 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=21,t_ms=915,distance_cm=55.17
+[SAMPLE] id=21,t_ms=1218,distance_cm=49.60
+[SAMPLE] id=21,t_ms=1522,distance_cm=44.01
+[SAMPLE] id=21,t_ms=1825,distance_cm=42.62
+[SAMPLE] id=21,t_ms=2128,distance_cm=44.14
+[SAMPLE] id=21,t_ms=2431,distance_cm=45.64
+[SAMPLE] id=21,t_ms=2735,distance_cm=47.16
+[SAMPLE] id=21,t_ms=3039,distance_cm=48.81
+[SAMPLE] id=21,t_ms=3343,distance_cm=50.20
+[SAMPLE] id=21,t_ms=3648,distance_cm=55.27
+[SAMPLE] id=21,t_ms=3952,distance_cm=63.70
+[SAMPLE] id=21,t_ms=4258,distance_cm=72.20
+[SAMPLE] id=21,t_ms=4563,distance_cm=80.62
+[SAMPLE] id=21,t_ms=4870,distance_cm=89.13
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 21
+[PASSAGE_END] id=21,end_ms=190025
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=22,start_ms=193140
+[SAMPLE] id=22,t_ms=0,distance_cm=89.28
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=22,t_ms=305,distance_cm=74.76
+[SAMPLE] id=22,t_ms=609,distance_cm=61.04
+[EVENT] VEHICLE_ENTERED | Started: 193140 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=22,t_ms=914,distance_cm=54.78
+[SAMPLE] id=22,t_ms=1217,distance_cm=48.81
+[SAMPLE] id=22,t_ms=1521,distance_cm=42.38
+[SAMPLE] id=22,t_ms=1824,distance_cm=44.06
+[SAMPLE] id=22,t_ms=2127,distance_cm=45.72
+[SAMPLE] id=22,t_ms=2431,distance_cm=47.40
+[SAMPLE] id=22,t_ms=2735,distance_cm=49.10
+[SAMPLE] id=22,t_ms=3039,distance_cm=50.78
+[SAMPLE] id=22,t_ms=3344,distance_cm=57.14
+[SAMPLE] id=22,t_ms=3648,distance_cm=66.52
+[SAMPLE] id=22,t_ms=3954,distance_cm=75.99
+[SAMPLE] id=22,t_ms=4259,distance_cm=85.39
+[SAMPLE] id=22,t_ms=4566,distance_cm=94.84
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 22
+[PASSAGE_END] id=22,end_ms=198642
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=23,start_ms=202069
+[SAMPLE] id=23,t_ms=0,distance_cm=92.73
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=23,t_ms=306,distance_cm=77.36
+[SAMPLE] id=23,t_ms=610,distance_cm=62.67
+[EVENT] VEHICLE_ENTERED | Started: 202069 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=23,t_ms=915,distance_cm=56.11
+[SAMPLE] id=23,t_ms=1218,distance_cm=49.55
+[SAMPLE] id=23,t_ms=1522,distance_cm=45.14
+[SAMPLE] id=23,t_ms=1825,distance_cm=46.91
+[SAMPLE] id=23,t_ms=2129,distance_cm=48.81
+[SAMPLE] id=23,t_ms=2433,distance_cm=50.49
+[SAMPLE] id=23,t_ms=2737,distance_cm=52.20
+[SAMPLE] id=23,t_ms=3042,distance_cm=56.80
+[SAMPLE] id=23,t_ms=3346,distance_cm=66.68
+[SAMPLE] id=23,t_ms=3652,distance_cm=76.63
+[SAMPLE] id=23,t_ms=3957,distance_cm=86.57
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 23
+[PASSAGE_END] id=23,end_ms=206963
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=24,start_ms=211325
+[SAMPLE] id=24,t_ms=0,distance_cm=83.11
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=24,t_ms=306,distance_cm=70.73
+[SAMPLE] id=24,t_ms=610,distance_cm=61.17
+[EVENT] VEHICLE_ENTERED | Started: 211325 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=24,t_ms=915,distance_cm=55.91
+[SAMPLE] id=24,t_ms=1218,distance_cm=50.63
+[SAMPLE] id=24,t_ms=1522,distance_cm=45.43
+[SAMPLE] id=24,t_ms=1826,distance_cm=45.98
+[SAMPLE] id=24,t_ms=2130,distance_cm=47.40
+[SAMPLE] id=24,t_ms=2434,distance_cm=48.86
+[SAMPLE] id=24,t_ms=2738,distance_cm=50.23
+[SAMPLE] id=24,t_ms=3042,distance_cm=51.67
+[SAMPLE] id=24,t_ms=3346,distance_cm=53.04
+[SAMPLE] id=24,t_ms=3651,distance_cm=59.20
+[SAMPLE] id=24,t_ms=3955,distance_cm=67.13
+[SAMPLE] id=24,t_ms=4261,distance_cm=75.05
+[SAMPLE] id=24,t_ms=4566,distance_cm=83.11
+[SAMPLE] id=24,t_ms=4873,distance_cm=90.95
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 24
+[PASSAGE_END] id=24,end_ms=217134
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=25,start_ms=220248
+[SAMPLE] id=25,t_ms=0,distance_cm=83.21
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=25,t_ms=305,distance_cm=68.05
+[SAMPLE] id=25,t_ms=610,distance_cm=56.06
+[EVENT] VEHICLE_ENTERED | Started: 220248 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=25,t_ms=913,distance_cm=49.55
+[SAMPLE] id=25,t_ms=1217,distance_cm=43.06
+[SAMPLE] id=25,t_ms=1520,distance_cm=37.85
+[SAMPLE] id=25,t_ms=1823,distance_cm=39.62
+[SAMPLE] id=25,t_ms=2126,distance_cm=41.35
+[SAMPLE] id=25,t_ms=2429,distance_cm=43.12
+[SAMPLE] id=25,t_ms=2732,distance_cm=44.85
+[SAMPLE] id=25,t_ms=3035,distance_cm=46.61
+[SAMPLE] id=25,t_ms=3339,distance_cm=52.65
+[SAMPLE] id=25,t_ms=3644,distance_cm=62.46
+[SAMPLE] id=25,t_ms=3950,distance_cm=72.30
+[SAMPLE] id=25,t_ms=4255,distance_cm=82.15
+[SAMPLE] id=25,t_ms=4562,distance_cm=91.99
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 25
+[PASSAGE_END] id=25,end_ms=225746
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=26,start_ms=229173
+[SAMPLE] id=26,t_ms=0,distance_cm=88.49
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=26,t_ms=305,distance_cm=74.91
+[SAMPLE] id=26,t_ms=609,distance_cm=62.80
+[EVENT] VEHICLE_ENTERED | Started: 229173 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=26,t_ms=914,distance_cm=56.94
+[SAMPLE] id=26,t_ms=1217,distance_cm=51.12
+[SAMPLE] id=26,t_ms=1521,distance_cm=45.98
+[SAMPLE] id=26,t_ms=1825,distance_cm=47.56
+[SAMPLE] id=26,t_ms=2129,distance_cm=49.15
+[SAMPLE] id=26,t_ms=2433,distance_cm=50.73
+[SAMPLE] id=26,t_ms=2737,distance_cm=52.31
+[SAMPLE] id=26,t_ms=3042,distance_cm=53.89
+[SAMPLE] id=26,t_ms=3346,distance_cm=60.30
+[SAMPLE] id=26,t_ms=3650,distance_cm=69.05
+[SAMPLE] id=26,t_ms=3956,distance_cm=77.86
+[SAMPLE] id=26,t_ms=4261,distance_cm=86.66
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 26
+[PASSAGE_END] id=26,end_ms=234371
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=27,start_ms=238110
+[SAMPLE] id=27,t_ms=0,distance_cm=91.20
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=27,t_ms=306,distance_cm=76.73
+[SAMPLE] id=27,t_ms=610,distance_cm=63.94
+[EVENT] VEHICLE_ENTERED | Started: 238110 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=27,t_ms=915,distance_cm=57.78
+[SAMPLE] id=27,t_ms=1218,distance_cm=51.57
+[SAMPLE] id=27,t_ms=1522,distance_cm=48.81
+[SAMPLE] id=27,t_ms=1826,distance_cm=50.20
+[SAMPLE] id=27,t_ms=2130,distance_cm=51.86
+[SAMPLE] id=27,t_ms=2435,distance_cm=53.54
+[SAMPLE] id=27,t_ms=2739,distance_cm=55.22
+[SAMPLE] id=27,t_ms=3043,distance_cm=60.59
+[SAMPLE] id=27,t_ms=3347,distance_cm=69.94
+[SAMPLE] id=27,t_ms=3653,distance_cm=79.30
+[SAMPLE] id=27,t_ms=3959,distance_cm=88.68
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 27
+[PASSAGE_END] id=27,end_ms=243005
+[FSM] EXIT -> EMPTY

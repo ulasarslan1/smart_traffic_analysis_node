@@ -8,19 +8,30 @@ void begin();
 
 void system(const char* message);
 
-void sensor(float distance, bool valid);
-
-void stateTransition(const char* from, const char* to);
-
-void fsm(const char* state, float distance, bool valid, uint8_t candidateCount);
+void stateTransition(
+    const char* from,
+    const char* to
+);
 
 void vehicleEntered(uint32_t startedAtMs);
 
 void vehicleExited(uint32_t total);
 
-void passage(uint32_t id, uint32_t startedAtMs, uint32_t endedAtMs,
-             uint32_t durationMs, float minCm, float maxCm, float avgCm,
-             uint32_t validSamples);
+// Raw passage data
+void passageStart(
+    uint32_t id,
+    uint32_t startMs
+);
 
+void sample(
+    uint32_t id,
+    uint32_t relativeTimeMs,
+    float distanceCm
+);
+
+void passageEnd(
+    uint32_t id,
+    uint32_t endMs
+);
 
 }

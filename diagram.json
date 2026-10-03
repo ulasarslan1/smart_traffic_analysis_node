@@ -12,7 +12,7 @@
       "attrs": {}
     },
     {
-      "type": "wokwi-hc-sr04",
+      "type": "chip-hc-sr04-emulator",
       "id": "sonarA",
       "top": -240,
       "left": 100,

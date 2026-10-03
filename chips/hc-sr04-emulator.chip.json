@@ -1,0 +1,33 @@
+{
+  "name": "HC-SR04 Emulator",
+  "author": "Smart Traffic Node",
+  "pins": [
+    "VCC",
+    "TRIG",
+    "ECHO",
+    "GND"
+  ],
+  "controls": [
+    {
+      "id": "distance",
+      "label": "Manual Distance (cm)",
+      "type": "range",
+      "min": 2,
+      "max": 400,
+      "step": 1
+    },
+    {
+      "id": "auto",
+      "label": "Auto Mode",
+      "type": "boolean"
+    },
+    {
+      "id": "vehicleType",
+      "label": "Vehicle Type (0=Motorcycle, 1=Car, 2=Truck)",
+      "type": "range",
+      "min": 0,
+      "max": 2,
+      "step": 1
+    }
+  ]
+}

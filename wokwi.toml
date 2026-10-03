@@ -2,3 +2,7 @@
 version = 1
 firmware = '.pio\build\esp32-s3-devkitc-1\firmware.bin'
 elf = '.pio\build\esp32-s3-devkitc-1\firmware.elf'
+
+[[chip]]
+name = 'hc-sr04-emulator'
+binary = 'chips/hc-sr04-emulator.chip.wasm'
