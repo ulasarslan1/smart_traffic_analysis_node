@@ -1,5 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
+from pathlib import Path
 
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import plot_tree
@@ -12,6 +14,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 # ============================================================
 
 DATASET_PATH = "datasets/features.csv"
+MODEL_PATH = "models/decision_tree.joblib"
 
 FEATURES = [
     "duration_ms",
@@ -223,6 +226,12 @@ final_model = DecisionTreeClassifier(**grid_search.best_params_, random_state=RA
 final_model.fit(X_trainval, y_trainval)
 
 print("Final model trained on", len(X_trainval), "samples.")
+
+
+Path(MODEL_PATH).parent.mkdir(parents=True, exist_ok=True)
+joblib.dump(final_model, MODEL_PATH)
+
+print("Final model saved to:", MODEL_PATH)
 
 
 # ============================================================

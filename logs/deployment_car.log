@@ -1,0 +1,83 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x1 (POWERON),boot:0x8 (SPI_FAST_FLASH_BOOT)
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce3808,len:0x370
+load:0x403c9700,len:0x900
+load:0x403cc700,len:0x2364
+entry 0x403c98ac
+[SYSTEM] System initialized
+[FSM] UNKNOWN -> EMPTY
+[PASSAGE_START] id=1,start_ms=2284
+[SAMPLE] id=1,t_ms=0,distance_cm=88.49
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=1,t_ms=305,distance_cm=78.80
+[SAMPLE] id=1,t_ms=609,distance_cm=69.15
+[EVENT] VEHICLE_ENTERED | Started: 2284 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=1,t_ms=914,distance_cm=62.80
+[SAMPLE] id=1,t_ms=1218,distance_cm=57.09
+[SAMPLE] id=1,t_ms=1521,distance_cm=51.38
+[SAMPLE] id=1,t_ms=1825,distance_cm=48.35
+[SAMPLE] id=1,t_ms=2129,distance_cm=51.78
+[SAMPLE] id=1,t_ms=2434,distance_cm=55.17
+[SAMPLE] id=1,t_ms=2738,distance_cm=58.62
+[SAMPLE] id=1,t_ms=3042,distance_cm=65.94
+[SAMPLE] id=1,t_ms=3348,distance_cm=73.97
+[SAMPLE] id=1,t_ms=3653,distance_cm=82.35
+[SAMPLE] id=1,t_ms=3960,distance_cm=90.71
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 1
+[PASSAGE_END] id=1,end_ms=7180
+[FEATURES] duration_ms=4896,min_cm=48.35,max_cm=90.71,mean_cm=66.76,std_cm=13.63,range_cm=42.36,mean_delta_cm=6.35,valid_samples=14
+[ML] prediction=CAR
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=2,start_ms=11246
+[SAMPLE] id=2,t_ms=0,distance_cm=88.58
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=2,t_ms=305,distance_cm=77.33
+[SAMPLE] id=2,t_ms=609,distance_cm=66.08
+[EVENT] VEHICLE_ENTERED | Started: 11246 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=2,t_ms=914,distance_cm=59.30
+[SAMPLE] id=2,t_ms=1217,distance_cm=52.65
+[SAMPLE] id=2,t_ms=1521,distance_cm=46.03
+[SAMPLE] id=2,t_ms=1825,distance_cm=47.61
+[SAMPLE] id=2,t_ms=2129,distance_cm=51.57
+[SAMPLE] id=2,t_ms=2434,distance_cm=55.57
+[SAMPLE] id=2,t_ms=2738,distance_cm=62.75
+[SAMPLE] id=2,t_ms=3044,distance_cm=72.44
+[SAMPLE] id=2,t_ms=3349,distance_cm=82.20
+[SAMPLE] id=2,t_ms=3656,distance_cm=91.94
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 2
+[PASSAGE_END] id=2,end_ms=15838
+[FEATURES] duration_ms=4592,min_cm=46.03,max_cm=91.94,mean_cm=65.70,std_cm=14.94,range_cm=45.91,mean_delta_cm=7.37,valid_samples=13
+[ML] prediction=CAR
+[FSM] EXIT -> EMPTY
+[PASSAGE_START] id=3,start_ms=20216
+[SAMPLE] id=3,t_ms=0,distance_cm=90.36
+[FSM] EMPTY -> ENTRY
+[SAMPLE] id=3,t_ms=305,distance_cm=80.43
+[SAMPLE] id=3,t_ms=611,distance_cm=70.47
+[EVENT] VEHICLE_ENTERED | Started: 20216 ms
+[FSM] ENTRY -> OCCUPIED
+[SAMPLE] id=3,t_ms=915,distance_cm=62.85
+[SAMPLE] id=3,t_ms=1219,distance_cm=57.04
+[SAMPLE] id=3,t_ms=1522,distance_cm=51.18
+[SAMPLE] id=3,t_ms=1826,distance_cm=45.33
+[SAMPLE] id=3,t_ms=2129,distance_cm=48.24
+[SAMPLE] id=3,t_ms=2433,distance_cm=51.78
+[SAMPLE] id=3,t_ms=2738,distance_cm=55.27
+[SAMPLE] id=3,t_ms=3042,distance_cm=60.35
+[SAMPLE] id=3,t_ms=3346,distance_cm=68.84
+[SAMPLE] id=3,t_ms=3652,distance_cm=77.36
+[SAMPLE] id=3,t_ms=3957,distance_cm=85.92
+[SAMPLE] id=3,t_ms=4264,distance_cm=94.50
+[FSM] OCCUPIED -> EXIT
+[EVENT] VEHICLE_EXITED | Total: 3
+[PASSAGE_END] id=3,end_ms=25416
+[FEATURES] duration_ms=5200,min_cm=45.33,max_cm=94.50,mean_cm=66.66,std_cm=15.41,range_cm=49.17,mean_delta_cm=6.73,valid_samples=15
+[ML] prediction=CAR
+[FSM] EXIT -> EMPTY

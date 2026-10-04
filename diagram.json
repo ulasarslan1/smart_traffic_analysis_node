@@ -1,4 +1,3 @@
-
 {
   "version": 1,
   "author": "SENTRY",
@@ -18,22 +17,6 @@
       "left": 100,
       "attrs": {
         "distance": "400"
-      }
-    },
-    {
-      "type": "wokwi-potentiometer",
-      "id": "pot",
-      "top": -170,
-      "left": -330,
-      "attrs": {}
-    },
-    {
-      "type": "wokwi-buzzer",
-      "id": "bz",
-      "top": 31.2,
-      "left": -391.8,
-      "attrs": {
-        "volume": "0.1"
       }
     },
     {
@@ -91,15 +74,6 @@
     ["esp:5V", "sonarA:VCC", "red", []],
     ["sonarA:GND", "esp:GND.1", "black", []],
 
-    ["esp:4", "pot:SIG", "orange", []],
-
-    [
-      "esp:15",
-      "bz:2",
-      "orange",
-      ["v47.82", "h-331.08"]
-    ],
-
     ["esp:8", "oled:SDA", "green", []],
     ["esp:9", "oled:SCL", "purple", []],
 
@@ -122,11 +96,8 @@
     ["esp:14", "rB:2", "blue", []],
     ["rB:1", "rgb:B", "blue", []],
 
-    ["esp:3V3.1", "pot:VCC", "red", []],
     ["esp:3V3.1", "oled:VCC", "red", []],
 
-    ["pot:GND", "esp:GND.1", "black", []],
-    ["bz:1", "esp:GND.1", "black", []],
     ["oled:GND", "esp:GND.1", "black", []],
 
     [
