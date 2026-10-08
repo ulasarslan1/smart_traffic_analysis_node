@@ -1,28 +1,25 @@
 #include <Arduino.h>
 
 #include "Logger.h"
-#include "FeatureExtractor.h"
 #include "DecisionTreeModel.h"
 #include "SystemUI.h"
-
+#include "Passage.h"
 
 
 constexpr uint8_t TRIG_PIN = 5;
 constexpr uint8_t ECHO_PIN = 7;
+constexpr uint8_t LABEL0_PIN = 10;
+constexpr uint8_t LABEL1_PIN = 11;
 
-constexpr uint8_t GROUND_TRUTH_LABEL0_PIN = 10;
-constexpr uint8_t GROUND_TRUTH_LABEL1_PIN = 11;
+constexpr float ENTRY = 100.0f;
+constexpr float EXIT = 120.0f;
+
+constexpr uint8_t COUNT = 3;
 
 
-
-constexpr float ENTRY_THRESHOLD_CM = 100.0f;
-constexpr float EXIT_THRESHOLD_CM = 120.0f;
-
-constexpr uint8_t CONFIRM_COUNT = 3;
-
-constexpr uint32_t SAMPLE_INTERVAL_MS = 300;
-constexpr uint32_t CLASSIFICATION_DISPLAY_MS = 1500;
-
+bool classificationDisplayed = false;
+uint32_t classificationDisplayStartMs = 0;
+uint32_t lastSampleMs = 0;
 
 
 enum class State {
@@ -38,18 +35,7 @@ State currentState = State::UNKNOWN;
 uint8_t candidateCount = 0;
 uint32_t nextPassageId = 1;
 
-
-
-struct Passage {
-    bool active = false;
-    uint32_t id = 0;
-    uint32_t startMs = 0;
-};
-
 Passage passage;
-
-
-FeatureExtractor featureExtractor;
 SystemUI systemUI;
 VehicleCounters vehicleCounters;
 
@@ -74,10 +60,10 @@ float calculateDistance()
 }
 
 
-bool readGroundTruth(VehicleClass& vehicleClass)
+bool readData(VehicleClass& vehicleClass)
 {
-    const bool label0 = digitalRead(GROUND_TRUTH_LABEL0_PIN);
-    const bool label1 = digitalRead(GROUND_TRUTH_LABEL1_PIN);
+    const bool label0 = digitalRead(LABEL0_PIN);
+    const bool label1 = digitalRead(LABEL1_PIN);
 
     if (!label1 && !label0) {
         vehicleClass = VehicleClass::MOTORCYCLE;
@@ -117,86 +103,76 @@ void updateVehicleCounters(VehicleClass vehicleClass)
     }
 }
 
+void startClassificationDisplay(VehicleClass prediction)
+{
+    systemUI.showClassification(prediction, vehicleCounters);
+    classificationDisplayed = true;
+    classificationDisplayStartMs = millis();
+}
+
+void updateUI(uint32_t now)
+{
+    if (!classificationDisplayed) {return;}
+    if (now - classificationDisplayStartMs < 1500) {return;}
+    classificationDisplayed = false;
+    if (currentState == State::EMPTY) {systemUI.showReady(vehicleCounters);}
+        
+}
+
 
 void startPassage(uint32_t now, float firstDistance)
 {
-    passage.active = true;
-    passage.id = nextPassageId++;
-    passage.startMs = now;
-
-    featureExtractor.reset(now);
-    featureExtractor.addSample(firstDistance);
-
+    passage.start(nextPassageId++, now, firstDistance);
+    classificationDisplayed = false;
     systemUI.showDetecting(vehicleCounters);
 }
 
 
-
 void addPassageSample(float distance)
 {
-    if (!passage.active) {
-        return;
-    }
-
-    if (distance >= ENTRY_THRESHOLD_CM) {
-        return;
-    }
-
-    featureExtractor.addSample(distance);
+    if (!passage.isActive()) {return;}
+    if (distance >= ENTRY) {return;}
+    passage.addSample(distance);
 }
-
 
 void cancelPassage()
 {
-    passage = Passage{};
-
+    passage.cancel();
+    classificationDisplayed = false;
     systemUI.showReady(vehicleCounters);
 }
 
-
 void completePassage(uint32_t now)
 {
-    if (!passage.active) {
-        return;
-    }
+    if (!passage.isActive()) {return;}
+
+    const uint32_t passageId = passage.getId();
 
     PassageFeatures features;
 
-    if (!featureExtractor.extract(now, features)) {
+    if (!passage.complete(now, features)) {
         Logger::error("Insufficient passage samples");
-
+        classificationDisplayed = false;
         systemUI.showError(vehicleCounters);
-        delay(CLASSIFICATION_DISPLAY_MS);
-        systemUI.showReady(vehicleCounters);
-
-        passage = Passage{};
-
+        passage.cancel();
         return;
     }
 
-    
     const VehicleClass prediction = predictVehicle(features);
-
-
     updateVehicleCounters(prediction);
 
     VehicleClass actual;
 
-    if (readGroundTruth(actual)) {
-        Logger::vehicle(passage.id, actual, prediction);
+    if (readData(actual)) {
+        Logger::vehicle(passageId, actual, prediction);
     }
     else {
         Logger::error("Invalid ground truth label");
     }
 
-   
-    systemUI.showClassification(prediction, vehicleCounters);
+    startClassificationDisplay(prediction);
 
-    delay(CLASSIFICATION_DISPLAY_MS);
-
-    systemUI.showReady(vehicleCounters);
-
-    passage = Passage{};
+    passage.cancel();
 }
 
 
@@ -226,19 +202,19 @@ void updateFSM()
    
     switch (currentState) {
         case State::UNKNOWN:
-            if (distance > EXIT_THRESHOLD_CM) {
+            if (distance > EXIT) {
                 currentState = State::EMPTY;
 
                 systemUI.showReady(vehicleCounters);
             }
-            else if (distance < ENTRY_THRESHOLD_CM) {
+            else if (distance < ENTRY) {
                 currentState = State::OCCUPIED;
             }
 
             break;
 
         case State::EMPTY:
-            if (distance < ENTRY_THRESHOLD_CM) {
+            if (distance < ENTRY) {
                 currentState = State::ENTRY;
                 candidateCount = 1;
 
@@ -248,12 +224,12 @@ void updateFSM()
             break;
 
         case State::ENTRY:
-            if (distance < ENTRY_THRESHOLD_CM) {
+            if (distance < ENTRY) {
                 addPassageSample(distance);
 
                 ++candidateCount;
 
-                if (candidateCount >= CONFIRM_COUNT) {
+                if (candidateCount >= COUNT) {
                     currentState = State::OCCUPIED;
                     candidateCount = 0;
                 }
@@ -268,10 +244,10 @@ void updateFSM()
             break;
 
         case State::OCCUPIED:
-            if (distance < ENTRY_THRESHOLD_CM) {
+            if (distance < ENTRY) {
                 addPassageSample(distance);
             }
-            else if (distance > EXIT_THRESHOLD_CM) {
+            else if (distance > EXIT) {
                 currentState = State::EXIT;
                 candidateCount = 1;
             }
@@ -279,10 +255,10 @@ void updateFSM()
             break;
 
         case State::EXIT:
-            if (distance > EXIT_THRESHOLD_CM) {
+            if (distance > EXIT) {
                 ++candidateCount;
 
-                if (candidateCount >= CONFIRM_COUNT) {
+                if (candidateCount >= COUNT) {
                     currentState = State::EMPTY;
                     candidateCount = 0;
 
@@ -293,7 +269,7 @@ void updateFSM()
                 currentState = State::OCCUPIED;
                 candidateCount = 0;
 
-                if (distance < ENTRY_THRESHOLD_CM) {
+                if (distance < ENTRY) {
                     addPassageSample(distance);
                 }
             }
@@ -310,8 +286,8 @@ void setup()
     pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT);
 
-    pinMode(GROUND_TRUTH_LABEL0_PIN, INPUT);
-    pinMode(GROUND_TRUTH_LABEL1_PIN, INPUT);
+    pinMode(LABEL0_PIN, INPUT);
+    pinMode(LABEL1_PIN, INPUT);
 
     digitalWrite(TRIG_PIN, LOW);
 
@@ -323,7 +299,12 @@ void setup()
 
 void loop()
 {
-    updateFSM();
+    const uint32_t now = millis();
 
-    delay(SAMPLE_INTERVAL_MS);
+    updateUI(now);
+
+    if (now - lastSampleMs >= 300) {
+        lastSampleMs = now;
+        updateFSM();
+    }
 }
