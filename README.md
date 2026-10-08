@@ -81,69 +81,6 @@ The final system provides:
 
 ## 4. System Architecture
 
-The complete processing pipeline is:
-
-```text
-                         SMART TRAFFIC ANALYSIS NODE
-
-┌───────────────────┐
-│ HC-SR04 Emulator  │
-│   Distance Data   │
-└─────────┬─────────┘
-          │ TRIG / ECHO
-          ▼
-┌───────────────────┐
-│ Distance          │
-│ Measurement       │
-└─────────┬─────────┘
-          │ distance (cm)
-          ▼
-┌───────────────────┐
-│ Finite State      │
-│ Machine (FSM)     │
-└─────────┬─────────┘
-          │ detected passage
-          ▼
-┌───────────────────┐
-│ Passage           │
-│ Management        │
-└─────────┬─────────┘
-          │ samples
-          ▼
-┌───────────────────┐
-│ FeatureExtractor  │
-└─────────┬─────────┘
-          │
-          │ 8 passage features
-          ▼
-┌───────────────────┐
-│ Decision Tree     │
-│ Classifier        │
-└─────────┬─────────┘
-          │
-          │ CAR / MOTORCYCLE / TRUCK
-          ▼
-┌─────────────────────────────────────────┐
-│              System Output              │
-├─────────────┬─────────────┬─────────────┤
-│ OLED        │ RGB LED     │ Logger      │
-│ Display     │ Status      │ Evaluation  │
-└─────────────┴─────────────┴─────────────┘
-```
-
-Ground truth follows a separate evaluation path:
-
-```text
-HC-SR04 Traffic Emulator
-          │
-          └── LABEL0 / LABEL1 ──► Ground Truth
-                                         │
-                                         ▼
-Model Prediction ───────────────────► Evaluation Logger
-```
-
-This separation ensures that the ground-truth information cannot influence vehicle classification.
-
 ### Component Diagram
 
 The detailed UML component diagram is available below:
