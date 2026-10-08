@@ -290,32 +290,18 @@ Raw passage logs were processed using the dataset generation scripts located in 
 The generated dataset contains the eight extracted features together with the corresponding vehicle label.
 
 ---
-
 ## 9. Machine Learning Model
+
+Two supervised machine learning algorithms were evaluated during development:
+
+- Decision Tree
+- Random Forest
+
+Both models were trained using the same eight passage features and evaluated using the same dataset preparation strategy.
 
 ### 9.1 Decision Tree
 
-A **Decision Tree classifier** was selected as the final embedded machine learning model.
-
-Both Decision Tree and Random Forest models were evaluated during development.
-
-The Decision Tree was selected because it provided:
-
-- Strong test performance
-- Low computational complexity
-- Low memory requirements
-- Fast inference
-- High interpretability
-- Straightforward conversion to C/C++
-- Easy deployment on the ESP32
-
-The final Decision Tree performs classification directly on the eight extracted passage features.
-
-### 9.2 Model Evaluation
-
-The dataset was divided into training, validation, and test subsets using stratified sampling.
-
-The final Decision Tree achieved:
+The Decision Tree achieved the following final test result:
 
 ```text
 Test samples : 39
@@ -335,11 +321,43 @@ Actual MOTO      0      14          0
 Actual TRUCK     2       0         10
 ```
 
-The observed errors were two truck samples classified as cars.
+The two classification errors were truck samples classified as cars.
 
-### 9.3 Feature Importance
+### 9.2 Random Forest Comparison
 
-The most influential Decision Tree features were:
+A Random Forest classifier was also trained and evaluated as an alternative model.
+
+During cross-validation, Random Forest showed competitive performance and achieved a slightly higher mean cross-validation score than the Decision Tree. However, its final held-out test performance was lower.
+
+| Model | Final Test Accuracy |
+|---|---:|
+| Decision Tree | **94.87%** |
+| Random Forest | **89.74%** |
+
+The Random Forest correctly classified 35 of the 39 final test samples, while the Decision Tree correctly classified 37.
+
+The difference should be interpreted carefully because the final test set contains only 39 samples. The result does not imply that Decision Trees are generally superior to Random Forests.
+
+### 9.3 Model Selection
+
+The **Decision Tree** was selected for deployment on the ESP32-S3.
+
+The main reasons were:
+
+- Higher accuracy on the final held-out test set
+- Simpler model structure
+- Lower memory and computational requirements
+- Fast inference on a microcontroller
+- High interpretability
+- Straightforward conversion into C++ decision logic
+
+The Decision Tree can be represented as a small sequence of conditional branches, making it particularly suitable for direct embedded deployment.
+
+Random Forest remained a competitive alternative during development, but its additional complexity did not provide better performance on the final test set used in this project.
+
+### 9.4 Feature Importance
+
+The most influential features in the final Decision Tree were:
 
 | Feature | Importance |
 |---|---:|
@@ -349,8 +367,6 @@ The most influential Decision Tree features were:
 | `range_cm` | 0.0132 |
 
 The remaining features had zero importance in the final trained tree.
-
-An important observation is that `duration_ms` was not used by the final Decision Tree. The classifier therefore did not simply learn a direct mapping between simulated passage duration and vehicle class.
 
 ---
 
