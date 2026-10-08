@@ -74,38 +74,24 @@
     ["esp:5V", "sonarA:VCC", "red", []],
     ["sonarA:GND", "esp:GND.1", "black", []],
 
+    ["sonarA:LABEL0", "esp:10", "orange", []],
+    ["sonarA:LABEL1", "esp:11", "yellow", []],
+
     ["esp:8", "oled:SDA", "green", []],
     ["esp:9", "oled:SCL", "purple", []],
+    ["esp:3V3.1", "oled:VCC", "red", []],
+    ["oled:GND", "esp:GND.1", "black", []],
 
     ["esp:12", "rR:2", "red", []],
-    [
-      "rR:1",
-      "rgb:R",
-      "red",
-      ["v161.15", "h-101.5"]
-    ],
+    ["rR:1", "rgb:R", "red", ["v161.15", "h-101.5"]],
 
     ["esp:13", "rG:2", "green", []],
-    [
-      "rG:1",
-      "rgb:G",
-      "green",
-      ["v63.95", "h-83.6"]
-    ],
+    ["rG:1", "rgb:G", "green", ["v63.95", "h-83.6"]],
 
     ["esp:14", "rB:2", "blue", []],
     ["rB:1", "rgb:B", "blue", []],
 
-    ["esp:3V3.1", "oled:VCC", "red", []],
-
-    ["oled:GND", "esp:GND.1", "black", []],
-
-    [
-      "rgb:COM",
-      "esp:GND.1",
-      "black",
-      ["v64.4", "h317.08"]
-    ]
+    ["rgb:COM", "esp:GND.1", "black", ["v64.4", "h317.08"]]
   ],
   "dependencies": {}
 }
