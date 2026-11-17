@@ -571,7 +571,7 @@ smart_traffic_analysis_node/
 │   ├── train_dt.py
 │   ├── train_rf.py
 │   ├── export_model.py
-│   └── verify_deployment.py
+│   
 │
 ├── src/
 │   ├── FeatureExtractor.cpp
