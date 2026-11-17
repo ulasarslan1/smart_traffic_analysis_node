@@ -30,30 +30,26 @@ struct PassageFeatures {
 
 inline VehicleClass predictVehicle(const PassageFeatures& features)
 {
-    if (features.min_cm <= 55.2749996185f) {
-        if (features.mean_cm <= 64.2507133484f) {
-            if (features.std_cm <= 13.8170175552f) {
+    if (features.mean_cm <= 70.1016159058f) {
+        if (features.mean_cm <= 64.3826675415f) {
+            if (features.std_cm <= 13.7053470612f) {
                 return VehicleClass::CAR;
             } else {
                 return VehicleClass::TRUCK;
             }
         } else {
+            return VehicleClass::CAR;
+        }
+    } else {
+        if (features.std_cm <= 12.5664505959f) {
+            return VehicleClass::MOTORCYCLE;
+        } else {
             if (features.mean_cm <= 71.8567619324f) {
-                if (features.mean_cm <= 64.3826675415f) {
-                    if (features.range_cm <= 43.3450012207f) {
-                        return VehicleClass::CAR;
-                    } else {
-                        return VehicleClass::TRUCK;
-                    }
-                } else {
-                    return VehicleClass::CAR;
-                }
+                return VehicleClass::CAR;
             } else {
                 return VehicleClass::MOTORCYCLE;
             }
         }
-    } else {
-        return VehicleClass::MOTORCYCLE;
     }
 }
 

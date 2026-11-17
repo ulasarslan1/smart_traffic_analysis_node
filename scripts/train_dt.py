@@ -73,6 +73,30 @@ if df[required_columns].isnull().any().any():
 
 
 # ============================================================
+# Duplicate removal
+# ============================================================
+# Repeated simulation runs can replay identical passages. If both copies stay,
+# one can land in the training set and the other in the test set, which
+# inflates the test score. Values are rounded so float summation noise in the
+# last digits does not hide a copy.
+
+rows_before = len(df)
+
+duplicate_mask = df[FEATURES].round(6).assign(**{TARGET: df[TARGET]}).duplicated()
+df = df.loc[~duplicate_mask].reset_index(drop=True)
+
+print()
+print("=" * 60)
+print("DUPLICATE REMOVAL")
+print("=" * 60)
+print("Rows before:", rows_before)
+print("Duplicate passages removed:", rows_before - len(df))
+print("Unique passages:", len(df))
+print("\nClass distribution after removal:")
+print(df[TARGET].value_counts())
+
+
+# ============================================================
 # Features and target
 # ============================================================
 

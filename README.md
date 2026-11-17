@@ -211,20 +211,22 @@ Three vehicle classes were collected:
 - Motorcycle
 - Truck
 
-The final dataset contains:
+Two simulation runs were recorded for each class. Raw passage logs were processed with `scripts/create_dataset.py`, which writes the eight extracted features and the vehicle label for every passage to `datasets/features.csv`.
 
-| Vehicle Class | Samples |
-|---|---:|
-| Motorcycle | 67 |
-| Car | 64 |
-| Truck | 60 |
-| **Total** | **191** |
+| Vehicle Class | Recorded passages | Unique passages |
+|---|---:|---:|
+| Motorcycle | 67 | 34 |
+| Car | 64 | 33 |
+| Truck | 60 | 33 |
+| **Total** | **191** | **100** |
 
-Multiple simulation runs were used for each class to introduce variation into the generated samples.
+### Duplicate Passages
 
-Raw passage logs were processed using the dataset generation scripts located in the `scripts/` directory.
+The second run of each class replayed the first run passage for passage: passage *n* of `car_run_02` has exactly the same features as passage *n* of `car_run_01`, and the same holds for motorcycles and trucks. The emulator derives its depth and time variation from the cycle number only, so every run produces the same sequence of profiles.
 
-The generated dataset contains the eight extracted features together with the corresponding vehicle label.
+With both copies in the dataset, a passage can land in the training set while its copy lands in the test set. In the earlier evaluation, 27 of the 39 test samples had an exact copy in the training data, which inflated the reported test accuracy.
+
+`train_dt.py` and `train_rf.py` now remove duplicate passages before splitting the data. Features are rounded to six decimals for the comparison so that floating-point noise in the last digits does not hide a copy. 91 duplicates are removed and 100 unique passages remain. The raw `features.csv` file is left unchanged.
 
 ---
 ## 9. Machine Learning Model
@@ -234,76 +236,71 @@ Two supervised machine learning algorithms were evaluated during development:
 - Decision Tree
 - Random Forest
 
-Both models were trained using the same eight passage features and evaluated using the same dataset preparation strategy.
+Both models were trained on the same eight passage features and the same 100 unique passages. The data is split into 60 training, 20 validation and 20 test samples (stratified, `random_state=42`). Hyperparameters are chosen with a grid search using 5-fold cross-validation on the training set, and the final model is retrained on training and validation data together (80 samples).
+
+With only 20 test samples, a single test split is too small to measure accuracy reliably: one more or one fewer error moves the result by 5 percentage points. The main metric below is therefore repeated stratified 5-fold cross-validation (10 repetitions) over all 100 unique passages.
 
 ### 9.1 Decision Tree
 
-The Decision Tree achieved the following final test result:
+The grid search selected the default configuration (`criterion="gini"`, no depth limit, `min_samples_split=2`, `min_samples_leaf=1`). The deployed tree has depth 3 and 6 leaves and uses only `mean_cm` and `std_cm`.
 
-```text
-Test samples : 39
-Correct      : 37
-Incorrect    : 2
-Test accuracy: 94.87%
-```
+| Evaluation | Result |
+|---|---:|
+| Repeated 5-fold CV accuracy (5 × 10) | **93.00% ± 5.20** |
+| Repeated 5-fold CV macro F1 (5 × 10) | **0.9296 ± 0.0524** |
+| Grid search CV macro F1 (training set) | 0.9325 ± 0.0629 |
+| Held-out test set (20 samples) | 20 / 20 correct |
 
-The test confusion matrix was:
+Out-of-fold predictions from one 5-fold pass over the 100 unique passages:
 
 ```text
                  Predicted
                CAR   MOTORCYCLE   TRUCK
 
-Actual CAR      13       0          0
-Actual MOTO      0      14          0
-Actual TRUCK     2       0         10
+Actual CAR      30       1          2
+Actual MOTO      1      33          0
+Actual TRUCK     2       0         31
 ```
 
-The two classification errors were truck samples classified as cars.
+| Vehicle Class | Precision | Recall | F1 |
+|---|---:|---:|---:|
+| Car | 0.9091 | 0.9091 | 0.9091 |
+| Motorcycle | 0.9706 | 0.9706 | 0.9706 |
+| Truck | 0.9394 | 0.9394 | 0.9394 |
+
+Most errors are between cars and trucks. A deep car profile and a shallow truck profile can produce nearly the same distance values.
 
 ### 9.2 Random Forest Comparison
 
-A Random Forest classifier was also trained and evaluated as an alternative model.
+A Random Forest classifier was trained and evaluated in the same way.
 
-During cross-validation, Random Forest showed competitive performance and achieved a slightly higher mean cross-validation score than the Decision Tree. However, its final held-out test performance was lower.
+| Model | Repeated 5-fold CV accuracy | Repeated 5-fold CV macro F1 |
+|---|---:|---:|
+| Decision Tree | 93.00% ± 5.20 | 0.9296 ± 0.0524 |
+| Random Forest | 92.80% ± 6.10 | 0.9270 ± 0.0615 |
 
-| Model | Final Test Accuracy |
-|---|---:|
-| Decision Tree | **94.87%** |
-| Random Forest | **89.74%** |
+Both models also classified all 20 held-out test samples correctly. The difference between them is far smaller than the variation between folds, so on this dataset neither model is more accurate than the other.
 
-The Random Forest correctly classified 35 of the 39 final test samples, while the Decision Tree correctly classified 37.
-
-The difference should be interpreted carefully because the final test set contains only 39 samples. The result does not imply that Decision Trees are generally superior to Random Forests.
+An earlier version of this README reported 94.87% for the Decision Tree and 89.74% for the Random Forest. Those numbers were measured before duplicate removal and are no longer valid.
 
 ### 9.3 Model Selection
 
-The **Decision Tree** was selected for deployment on the ESP32-S3.
+The **Decision Tree** was selected for deployment on the ESP32-S3. Its accuracy matches the Random Forest, and it is much simpler to run on a microcontroller:
 
-The main reasons were:
+- The whole model is five comparisons in nested `if/else` blocks, generated automatically by `scripts/export_model.py`.
+- It needs no extra memory at runtime and classifies a passage in a few instructions.
+- Every decision can be traced to a threshold on a named feature.
 
-- Higher accuracy on the final held-out test set
-- Simpler model structure
-- Lower memory and computational requirements
-- Fast inference on a microcontroller
-- High interpretability
-- Straightforward conversion into C++ decision logic
-
-The Decision Tree can be represented as a small sequence of conditional branches, making it particularly suitable for direct embedded deployment.
-
-Random Forest remained a competitive alternative during development, but its additional complexity did not provide better performance on the final test set used in this project.
+A Random Forest would need tens of trees to be exported and evaluated on the device for no measurable gain in accuracy.
 
 ### 9.4 Feature Importance
 
-The most influential features in the final Decision Tree were:
-
 | Feature | Importance |
 |---|---:|
-| `min_cm` | 0.4969 |
-| `mean_cm` | 0.4706 |
-| `std_cm` | 0.0193 |
-| `range_cm` | 0.0132 |
+| `mean_cm` | 0.9127 |
+| `std_cm` | 0.0873 |
 
-The remaining features had zero importance in the final trained tree.
+The remaining six features had zero importance in the final trained tree.
 
 ---
 
@@ -452,6 +449,10 @@ They do not participate in:
 
 ## 13. Final System Evaluation
 
+> **Note:** The Wokwi results in this section were measured with the previous Decision Tree, trained before duplicate removal (section 8). The firmware now contains the retrained tree, and this end-to-end test should be repeated in Wokwi with the current build.
+>
+> As an interim check, the compiled emulator chip (`hc-sr04-emulator.chip.wasm`) was run outside Wokwi with a JavaScript port of the firmware's FSM, feature extraction and decision tree, sampling every 300 ms as the firmware does. Over 100 consecutive passages the current tree classified 94 correctly and the previous tree 93. This replay does not run the actual firmware.
+
 A final end-to-end simulation test was performed using **30 automatically generated vehicle passages**.
 
 The test evaluated the complete pipeline:
@@ -518,15 +519,15 @@ The continuous passage IDs from `1` to `30`, together with zero runtime errors, 
 Two different accuracy values are reported in this project:
 
 ```text
-Decision Tree offline test accuracy : 94.87%
-End-to-end simulation accuracy      : 86.67%
+Decision Tree offline accuracy (repeated 5-fold CV) : 93.00%
+End-to-end Wokwi accuracy (previous model)          : 86.67%
 ```
 
 These values represent different experiments.
 
-The **94.87%** result measures the Decision Tree against the held-out dataset test set.
+The **93.00%** result measures the current Decision Tree with repeated cross-validation over the 100 unique dataset passages.
 
-The **86.67%** result measures the complete simulated embedded pipeline, including ultrasonic measurement, FSM processing, passage sampling, feature extraction, and ESP32 inference.
+The **86.67%** result measures the complete simulated embedded pipeline, including ultrasonic measurement, FSM processing, passage sampling, feature extraction, and ESP32 inference, over 30 passages with the previous model.
 
 Therefore, the two values should not be interpreted as results from the same evaluation procedure.
 
@@ -676,7 +677,7 @@ Therefore, passage duration alone should not be interpreted as an independent sp
 
 ### Dataset Size
 
-The current machine learning dataset contains 191 samples.
+The current machine learning dataset contains 100 unique passages (191 recorded, 91 of them duplicates from replayed simulation runs).
 
 Although sufficient for demonstrating the complete embedded ML pipeline, a significantly larger and more diverse dataset would be required for a production system.
 
@@ -696,6 +697,7 @@ Possible future improvements include:
 
 - Collecting data from physical HC-SR04 sensors
 - Building a real-world vehicle dataset
+- Seeding the emulator's profile variation per run, so repeated runs produce new passages instead of replaying earlier ones
 - Increasing the number of independent data collection runs
 - Testing under different vehicle speeds
 - Introducing additional sensor noise and environmental variation
@@ -731,6 +733,6 @@ ESP32 Deployment
 Real-Time User Interface
 ```
 
-The final Wokwi implementation successfully processed all **30/30** vehicle passages in the end-to-end evaluation without runtime errors and achieved an **86.67% simulation classification accuracy**.
+The final Wokwi implementation successfully processed all **30/30** vehicle passages in the end-to-end evaluation without runtime errors and achieved an **86.67% simulation classification accuracy** with the previous model. The current Decision Tree, trained on 100 unique passages after duplicate removal, reaches **93.00%** accuracy in repeated 5-fold cross-validation.
 
 The system provides a modular foundation for future development using physical sensors and real-world traffic data.
