@@ -2,13 +2,21 @@
   "name": "HC-SR04 Emulator",
   "author": "SENTRY",
   "pins": [
-    "VCC",
-    "TRIG",
-    "ECHO",
+    "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
     "GND",
+    "VCC",
+    "", "", "",
+    "LABEL1",
     "LABEL0",
-    "LABEL1"
+    "", "", "", "", "", "", "", "",
+    "ECHO",
+    "",
+    "TRIG"
   ],
+  "display": {
+    "width": 128,
+    "height": 96
+  },
   "controls": [
     {
       "id": "distance",

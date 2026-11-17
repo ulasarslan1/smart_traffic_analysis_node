@@ -3,95 +3,34 @@
   "author": "SENTRY",
   "editor": "wokwi",
   "parts": [
-    {
-      "type": "board-esp32-s3-devkitc-1",
-      "id": "esp",
-      "top": 0,
-      "left": 0,
-      "attrs": {}
-    },
-    {
-      "type": "chip-hc-sr04-emulator",
-      "id": "sonarA",
-      "top": -240,
-      "left": 100,
-      "attrs": {
-        "distance": "400"
-      }
-    },
-    {
-      "type": "board-ssd1306",
-      "id": "oled",
-      "top": 230,
-      "left": -350,
-      "attrs": {
-        "i2cAddress": "0x3c"
-      }
-    },
-    {
-      "type": "wokwi-rgb-led",
-      "id": "rgb",
-      "top": 400,
-      "left": -330,
-      "attrs": {
-        "common": "cathode"
-      }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "rR",
-      "top": 390,
-      "left": -220,
-      "attrs": {
-        "value": "220"
-      }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "rG",
-      "top": 420,
-      "left": -220,
-      "attrs": {
-        "value": "220"
-      }
-    },
-    {
-      "type": "wokwi-resistor",
-      "id": "rB",
-      "top": 450,
-      "left": -220,
-      "attrs": {
-        "value": "220"
-      }
-    }
+    {"type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {}},
+    {"type": "chip-hc-sr04-emulator", "id": "sonarA", "top": 56.58, "left": -220, "attrs": {"distance": "200", "auto": "1"}},
+    {"type": "board-ssd1306", "id": "oled", "top": -112, "left": -205, "attrs": {"i2cAddress": "0x3c"}},
+    {"type": "wokwi-rgb-led", "id": "rgb", "top": 330, "left": 74, "attrs": {"common": "cathode"}},
+    {"type": "wokwi-resistor", "id": "rR", "top": 314.35, "left": 6, "attrs": {"value": "220"}},
+    {"type": "wokwi-resistor", "id": "rG", "top": 298.35, "left": 6, "attrs": {"value": "220"}},
+    {"type": "wokwi-resistor", "id": "rB", "top": 282.35, "left": 6, "attrs": {"value": "220"}}
   ],
   "connections": [
     ["esp:TX", "$serialMonitor:RX", "", []],
     ["esp:RX", "$serialMonitor:TX", "", []],
-
     ["esp:5", "sonarA:TRIG", "green", []],
     ["esp:7", "sonarA:ECHO", "blue", []],
+    ["esp:10", "sonarA:LABEL0", "orange", []],
+    ["esp:11", "sonarA:LABEL1", "gold", []],
     ["esp:5V", "sonarA:VCC", "red", []],
-    ["sonarA:GND", "esp:GND.1", "black", []],
-
-    ["sonarA:LABEL0", "esp:10", "orange", []],
-    ["sonarA:LABEL1", "esp:11", "yellow", []],
-
-    ["esp:8", "oled:SDA", "green", []],
-    ["esp:9", "oled:SCL", "purple", []],
-    ["esp:3V3.1", "oled:VCC", "red", []],
-    ["oled:GND", "esp:GND.1", "black", []],
-
-    ["esp:12", "rR:2", "red", []],
-    ["rR:1", "rgb:R", "red", ["v161.15", "h-101.5"]],
-
-    ["esp:13", "rG:2", "green", []],
-    ["rG:1", "rgb:G", "green", ["v63.95", "h-83.6"]],
-
-    ["esp:14", "rB:2", "blue", []],
-    ["rB:1", "rgb:B", "blue", []],
-
-    ["rgb:COM", "esp:GND.1", "black", ["v64.4", "h317.08"]]
+    ["esp:GND.1", "sonarA:GND", "black", []],
+    ["esp:3V3.1", "oled:VCC", "red", ["h-21.08", "v-162.98", "h-141.38"]],
+    ["esp:8", "oled:SDA", "green", ["h-33.08", "v-261.58", "h-110.1"]],
+    ["esp:9", "oled:SCL", "purple", ["h-45.08", "v-283.38", "h-107.93"]],
+    ["oled:GND", "esp:GND.2", "black", ["v-36.46", "h281.31", "v170.98"]],
+    ["esp:12", "rR:1", "red", ["h-39.08", "v127.82"]],
+    ["esp:13", "rG:1", "green", ["h-27.08", "v102.22"]],
+    ["esp:14", "rB:1", "blue", ["h-15.08", "v76.62"]],
+    ["rR:2", "rgb:R", "red", ["h17.7"]],
+    ["rB:2", "rgb:B", "blue", ["h44.9"]],
+    ["rG:2", "rgb:G", "green", ["h40.7", "v78", "h-5.1"]],
+    ["rgb:COM", "esp:GND.4", "black", ["v12", "h42", "v-165.42"]]
   ],
   "dependencies": {}
 }

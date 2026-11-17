@@ -417,6 +417,10 @@ Variation is introduced into the generated profiles so that every vehicle of the
 
 In automatic traffic mode, vehicle classes are generated in a balanced sequence with shuffled ordering.
 
+The chip has a 128×96 display that shows a side view of the road with a motorcycle (with rider and top box), a car or a box truck passing under the sensor. The drawings follow the class distance profiles and use the same per-passage depth scaling, so the beam ends close to the vehicle's roof; the beam length and the cm value always show the exact distance reported on ECHO. The display only reads the chip state; ECHO timing and the generated profiles are the same with or without it.
+
+Automatic traffic is enabled by default in `diagram.json` (`"auto": "1"`). Turning it off in the chip's control panel switches to the manual distance slider.
+
 ### 12.3 Ground Truth Labels
 
 The custom emulator provides two additional simulation-only outputs:
@@ -629,7 +633,7 @@ wokwi-cli chip compile chips/hc-sr04-emulator.c -o chips/hc-sr04-emulator.chip.w
 1. Build the ESP32 firmware.
 2. Compile the custom HC-SR04 emulator if its source code was modified.
 3. Start the Wokwi simulation from Visual Studio Code.
-4. Enable automatic traffic generation in the HC-SR04 emulator.
+4. Automatic traffic starts by default; it can be switched off in the emulator's control panel.
 5. Open the Serial Monitor.
 6. Observe the OLED, RGB LED, and classification output.
 
